@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { supabaseBrowser } from "@/lib/supabase";
 
 type Intensity = "off" | "honest" | "aggressive";
 
@@ -46,9 +47,25 @@ export default function SetupStep() {
   const [roles, setRoles] = useState<string[]>(["Data Analyst", "BI Analyst", "Data Scientist"]);
   const [roleInput, setRoleInput] = useState("");
   const [err, setErr] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  function finish() {
+  async function finish() {
     if (!rules(pw).every((r) => r.mark)) { setErr(true); return; }
+    setSaving(true);
+    const supabase = supabaseBrowser();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { router.push("/login"); return; }
+    await supabase.from("profiles").update({
+      app_password_encrypted: pw,
+      resume_opt: resumeOpt,
+      cover_letter_opt: coverOpt,
+      auto_approve_resume: autoR,
+      auto_approve_cover: autoC,
+      recruiter_enabled: recruiterOn,
+      recruiter_message: recruiterMsg || null,
+      preferred_roles: roles,
+    }).eq("id", user.id);
+    setSaving(false);
     router.push("/app/dashboard");
   }
 
@@ -161,8 +178,8 @@ export default function SetupStep() {
         <button onClick={() => router.push("/onboarding/about")} className="text-sm font-semibold text-muted hover:text-forest flex items-center gap-2">
           ← Back <span className="bg-white border border-mint rounded-[5px] px-[7px] py-[1px] text-xs">⇧ Tab</span>
         </button>
-        <button onClick={finish} className="bg-emerald text-white text-sm font-semibold px-6 py-3 rounded-[10px] flex items-center gap-2 hover:brightness-[0.93]">
-          Finish setup → <span className="bg-white/20 rounded-[5px] px-[7px] py-[1px] text-xs">↵</span>
+        <button onClick={finish} disabled={saving} className="bg-emerald text-white text-sm font-semibold px-6 py-3 rounded-[10px] flex items-center gap-2 hover:brightness-[0.93] disabled:opacity-50">
+          {saving ? "Saving…" : <>Finish setup → <span className="bg-white/20 rounded-[5px] px-[7px] py-[1px] text-xs">↵</span></>}
         </button>
       </div>
     </div>

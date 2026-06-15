@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useApp } from "@/lib/store";
+import { supabaseBrowser } from "@/lib/supabase";
 import JobDetailModal from "@/components/JobDetailModal";
 import WhatsappModal from "@/components/WhatsappModal";
 import Toast from "@/components/Toast";
@@ -17,8 +19,24 @@ const NAV = [
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const openWa = useApp((s) => s.openWhatsapp);
   const appliedCount = useApp((s) => s.appliedIds.length);
+  const [email, setEmail] = useState<string>("");
+
+  useEffect(() => {
+    const supabase = supabaseBrowser();
+    supabase.auth.getUser().then(({ data: { user } }) => { if (user?.email) setEmail(user.email); });
+  }, []);
+
+  async function logout() {
+    const supabase = supabaseBrowser();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
+  const initials = email ? email.slice(0, 2).toUpperCase() : "··";
 
   return (
     <div className="grid grid-cols-[232px_1fr] h-screen overflow-hidden">
@@ -72,10 +90,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="text-xs text-emerald font-semibold cursor-pointer">Upgrade or buy a pack →</div>
         </div>
         <div className="flex items-center gap-2.5 px-1.5 pt-3">
-          <div className="w-[30px] h-[30px] rounded-full bg-emerald text-white text-xs font-bold flex items-center justify-center">AR</div>
-          <div className="flex flex-col">
-            <div className="text-[13px] font-semibold text-white">Alistair Rodrigues</div>
-            <div className="text-[11px] text-sub">alistairar7@gmail.com</div>
+          <div className="w-[30px] h-[30px] rounded-full bg-emerald text-white text-xs font-bold flex items-center justify-center">{initials}</div>
+          <div className="flex flex-col flex-1 min-w-0">
+            <div className="text-[13px] font-semibold text-white truncate">{email || "Loading…"}</div>
+            <button onClick={logout} className="text-[11px] text-sub hover:text-white text-left">Sign out</button>
           </div>
         </div>
       </nav>

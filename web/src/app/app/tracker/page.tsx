@@ -1,11 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApp } from "@/lib/store";
 import { TRACK, STATUS_COLORS } from "@/lib/sample-data";
 import { logoStyle } from "@/lib/jobs";
-import type { TrackStatus } from "@/lib/types";
+import { supabaseBrowser } from "@/lib/supabase";
+import type { TrackRow, TrackStatus } from "@/lib/types";
 
 const TABS: (TrackStatus | "All")[] = ["All", "Applied", "Interviewing", "Assessment", "Offer", "Ghosted", "Rejected"];
+
+const STATUS_MAP: Record<string, TrackStatus> = {
+  submitted: "Applied", pending: "Applied", interviewing: "Interviewing",
+  assessment: "Assessment", offer: "Offer", ghosted: "Ghosted", rejected: "Rejected",
+};
 
 export default function Tracker() {
   const market = useApp((s) => s.market);
@@ -13,13 +19,31 @@ export default function Tracker() {
   const showToast = useApp((s) => s.showToast);
   const [tab, setTab] = useState<TrackStatus | "All">("All");
   const [search, setSearch] = useState("");
+  const [dbRows, setDbRows] = useState<TrackRow[] | null>(null);
 
-  const rows = TRACK
+  useEffect(() => {
+    const supabase = supabaseBrowser();
+    supabase.from("applications").select("*").order("applied_at", { ascending: false }).then(({ data }) => {
+      if (!data) { setDbRows([]); return; }
+      setDbRows(data.map((a) => ({
+        id: a.id,
+        co: a.company || "—",
+        role: a.job_title || "—",
+        logo: (a.company || "??").slice(0, 2).toUpperCase(),
+        dark: false,
+        status: STATUS_MAP[a.status] || "Applied",
+        date: new Date(a.applied_at).toLocaleDateString(),
+      })));
+    });
+  }, []);
+
+  const source = dbRows && dbRows.length > 0 ? dbRows : TRACK;
+  const rows = source
     .filter((r) => tab === "All" || r.status === tab)
     .filter((r) => !search || (r.co + r.role).toLowerCase().includes(search.toLowerCase()));
 
-  const counts: Record<string, number> = { All: TRACK.length };
-  TRACK.forEach((r) => { counts[r.status] = (counts[r.status] || 0) + 1; });
+  const counts: Record<string, number> = { All: source.length };
+  source.forEach((r) => { counts[r.status] = (counts[r.status] || 0) + 1; });
 
   return (
     <div className="px-7 pt-6 pb-10 flex flex-col gap-4 min-h-full">

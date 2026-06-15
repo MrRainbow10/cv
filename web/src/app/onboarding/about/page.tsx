@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useApp } from "@/lib/store";
+import { supabaseBrowser } from "@/lib/supabase";
 
 const INDIA_STATES = ["Maharashtra", "Karnataka", "Tamil Nadu", "Delhi", "Telangana", "Gujarat", "West Bengal", "Kerala", "Other"];
 const UK_REGIONS = ["Greater London", "South East", "North West", "Scotland", "Wales", "Northern Ireland", "Other"];
@@ -26,7 +27,49 @@ export default function AboutStep() {
   const [notice, setNotice] = useState("");
   const [yn, setYn] = useState<Record<string, boolean | null>>({ relocate: null, rtw: null, sponsor: null });
   const [prefs, setPrefs] = useState<Record<string, boolean>>({ inperson: true, relocate: false, immediate: true, transport: true, accommodations: false });
+  const [saving, setSaving] = useState(false);
   const upd = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setF((p) => ({ ...p, [k]: e.target.value }));
+
+  async function onContinue() {
+    setSaving(true);
+    const supabase = supabaseBrowser();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { router.push("/login"); return; }
+    const num = (v: string) => (v ? Number(v) : null);
+    const payload: Record<string, unknown> = {
+      address_line: f.addrLine || null,
+      city: f.city || null,
+      postal_code: f.postal || null,
+      district: f.district || null,
+      region: f.region || null,
+      phone: f.phone ? `${phonePrefix} ${f.phone}` : null,
+      alt_phone: f.altPhone || null,
+      linkedin_url: f.linkedin || null,
+      notice_period: notice || null,
+      open_to_in_person: prefs.inperson,
+      willing_to_relocate: isIndia ? (yn.relocate ?? prefs.relocate) : prefs.relocate,
+      can_start_immediately: prefs.immediate,
+      reliable_transport: prefs.transport,
+      needs_accommodations: prefs.accommodations,
+      gender: f.gender || null,
+      disability: f.disability || null,
+      additional_info: f.additional || null,
+    };
+    if (isIndia) {
+      payload.is_indian_citizen = yn.citizen ?? null;
+      payload.current_ctc = num(f.currentCtc);
+      payload.expected_ctc_min = num(f.expectedMin);
+      payload.expected_ctc_max = num(f.expectedMax);
+      payload.category_india = f.category || null;
+    } else {
+      payload.right_to_work_uk = yn.rtw ?? null;
+      payload.requires_sponsorship = yn.sponsor ?? null;
+      payload.ethnicity_uk = f.ethnicity || null;
+    }
+    await supabase.from("profiles").update(payload).eq("id", user.id);
+    setSaving(false);
+    router.push("/onboarding/setup");
+  }
 
   const cityLabel = isIndia ? "City" : "City / Town";
   const postalLabel = isIndia ? "PIN code" : "Postcode";
@@ -223,8 +266,8 @@ export default function AboutStep() {
         <button onClick={() => router.push("/onboarding/resume")} className="text-sm font-semibold text-muted hover:text-forest flex items-center gap-2">
           ← Back <span className="bg-white border border-mint rounded-[5px] px-[7px] py-[1px] text-xs">⇧ Tab</span>
         </button>
-        <button onClick={() => router.push("/onboarding/setup")} className="bg-emerald text-white text-sm font-semibold px-6 py-3 rounded-[10px] flex items-center gap-2 hover:brightness-[0.93]">
-          Continue · Step 2 of 3 <span className="bg-white/20 rounded-[5px] px-[7px] py-[1px] text-xs">↵</span>
+        <button onClick={onContinue} disabled={saving} className="bg-emerald text-white text-sm font-semibold px-6 py-3 rounded-[10px] flex items-center gap-2 hover:brightness-[0.93] disabled:opacity-50">
+          {saving ? "Saving…" : <>Continue · Step 2 of 3 <span className="bg-white/20 rounded-[5px] px-[7px] py-[1px] text-xs">↵</span></>}
         </button>
       </div>
     </div>

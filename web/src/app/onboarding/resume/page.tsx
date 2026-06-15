@@ -1,16 +1,36 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
+import { supabaseBrowser } from "@/lib/supabase";
 
 export default function ResumeStep() {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [referral, setReferral] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     if (f) setFile(f);
+  }
+
+  async function onContinue() {
+    setError(null);
+    const supabase = supabaseBrowser();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { router.push("/login"); return; }
+    if (file) {
+      setUploading(true);
+      const path = `${user.id}/${Date.now()}-${file.name}`;
+      const { error: upErr } = await supabase.storage.from("resumes").upload(path, file, { upsert: true, contentType: "application/pdf" });
+      if (upErr) { setError(upErr.message); setUploading(false); return; }
+      await supabase.from("resumes").insert({ user_id: user.id, storage_path: path, filename: file.name, size_bytes: file.size });
+    }
+    if (referral) await supabase.from("profiles").update({ referral_code: referral }).eq("id", user.id);
+    setUploading(false);
+    router.push("/onboarding/about");
   }
 
   return (
@@ -53,14 +73,16 @@ export default function ResumeStep() {
         />
       </div>
 
+      {error && <div className="text-xs text-red-600 mt-3">{error}</div>}
       <div className="flex-1 min-h-8" />
       <div className="flex items-center justify-between mt-8">
         <div className="text-xs text-muted">Takes about 30 seconds · Step 1 of 3</div>
         <button
-          onClick={() => router.push("/onboarding/about")}
-          className="bg-emerald text-white text-sm font-semibold px-6 py-3 rounded-[10px] flex items-center gap-2 hover:brightness-[0.93]"
+          onClick={onContinue}
+          disabled={uploading}
+          className="bg-emerald text-white text-sm font-semibold px-6 py-3 rounded-[10px] flex items-center gap-2 hover:brightness-[0.93] disabled:opacity-50"
         >
-          Continue <span className="bg-white/20 rounded-[5px] px-[7px] py-[1px] text-xs">↵</span>
+          {uploading ? "Uploading…" : <>Continue <span className="bg-white/20 rounded-[5px] px-[7px] py-[1px] text-xs">↵</span></>}
         </button>
       </div>
     </div>

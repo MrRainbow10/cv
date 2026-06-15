@@ -8,7 +8,7 @@ export default function Landing() {
 
   function pick(m: "IN" | "UK") {
     setMarket(m);
-    router.push("/onboarding/resume");
+    router.push("/signup");
   }
 
   return (
