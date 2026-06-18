@@ -15,6 +15,26 @@
             "statusMessage": "Loading ponytail mode..."
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ln -sfn \"$CLAUDE_PROJECT_DIR/.claude/understand-anything\" \"$HOME/.understand-anything-plugin\" 2>/dev/null || true",
+            "timeout": 5,
+            "statusMessage": "Linking understand-anything plugin root..."
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/last30days/hooks/scripts/check-config.sh\" 2>/dev/null || true",
+            "timeout": 10,
+            "statusMessage": "Checking last30days config..."
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
