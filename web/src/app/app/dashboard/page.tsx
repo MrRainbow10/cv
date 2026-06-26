@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useApp } from "@/lib/store";
-import { jobsForMarket } from "@/lib/jobs";
+import { useJobs } from "@/lib/use-jobs";
 import { TRACK, STATUS_COLORS } from "@/lib/sample-data";
 import JobCard from "@/components/JobCard";
 
@@ -16,9 +16,18 @@ export default function Dashboard() {
   const apply = useApp((s) => s.apply);
   const showToast = useApp((s) => s.showToast);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  const all = jobsForMarket(market).filter((j) => !appliedIds.includes(j.id) && !passedIds.includes(j.id));
-  const jobs = search ? all.filter((j) => (j.title + j.co).toLowerCase().includes(search.toLowerCase())) : all;
+  const { jobs: realJobs, loading, error } = useJobs(market, debouncedSearch);
+
+  function onSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearch(e.target.value);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setDebouncedSearch(e.target.value), 400);
+  }
+
+  const jobs = realJobs.filter((j) => !appliedIds.includes(j.id) && !passedIds.includes(j.id));
 
   const counts = {
     submitted: TRACK.filter((t) => t.status === "Applied").length + appliedIds.length,
@@ -38,7 +47,7 @@ export default function Dashboard() {
   ];
 
   function applyAll() {
-    jobs.forEach((j) => apply(j.id));
+    jobs.forEach((j) => apply(j.id, j.title, j.co));
     showToast(`Applied to ${jobs.length} jobs.`);
   }
 
@@ -47,7 +56,7 @@ export default function Dashboard() {
       <div className="flex items-center gap-3">
         <input
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={onSearchChange}
           placeholder="Search by title, company…"
           className="flex-1 bg-white border border-mint rounded-[10px] px-3.5 py-2.5 text-sm text-forest outline-none focus:border-emerald"
         />
@@ -77,11 +86,21 @@ export default function Dashboard() {
               )}
             </div>
           </div>
-          {jobs.length === 0 ? (
+          {loading ? (
+            <div className="bg-white border border-dashed border-mint rounded-[14px] py-12 px-6 flex flex-col items-center gap-2.5">
+              <div className="w-6 h-6 border-2 border-emerald border-t-transparent rounded-full animate-spin" />
+              <div className="text-[13px] text-muted">Loading real jobs…</div>
+            </div>
+          ) : error ? (
+            <div className="bg-white border border-red-200 rounded-[14px] py-8 px-6 flex flex-col items-center gap-2">
+              <div className="text-[15px] font-semibold text-red-600">Couldn&apos;t load jobs</div>
+              <div className="text-[13px] text-muted">{error}</div>
+            </div>
+          ) : jobs.length === 0 ? (
             <div className="bg-white border border-dashed border-mint rounded-[14px] py-12 px-6 flex flex-col items-center gap-2.5">
               <div className="w-[52px] h-[52px] rounded-full bg-sage border border-mint flex items-center justify-center"><div className="w-[18px] h-[18px] rounded bg-mint" /></div>
               <div className="text-[15px] font-semibold">No matches right now</div>
-              <div className="text-[13px] text-muted">New matches land overnight — or add a job link yourself.</div>
+              <div className="text-[13px] text-muted">Try a different search or check back later.</div>
               <Link href="/app/browse" className="bg-emerald text-white text-[13px] font-semibold px-4 py-2 rounded-[9px] mt-1 hover:brightness-[0.93]">Browse jobs</Link>
             </div>
           ) : (

@@ -8,7 +8,8 @@ export default function JobDetailModal() {
   const apply = useApp((s) => s.apply);
   const pass = useApp((s) => s.pass);
   const market = useApp((s) => s.market);
-  const job = jobById(id);
+  const cachedJob = useApp((s) => id ? s.jobCache[id] : undefined);
+  const job = cachedJob || jobById(id);
   if (!job) return null;
 
   const logo = logoStyle(job.dark);
@@ -65,7 +66,7 @@ export default function JobDetailModal() {
           </div>
           <div className="flex gap-2.5 sticky bottom-0 pt-[18px] border-t border-mint bg-white">
             <button onClick={() => { pass(job.id); close(); }} className="flex-1 border border-mint text-forest text-sm font-semibold px-[18px] py-3 rounded-[10px] hover:bg-sage">Pass</button>
-            <button onClick={() => { apply(job.id); close(); }} className="flex-1 bg-emerald text-white text-sm font-semibold px-[18px] py-3 rounded-[10px] hover:brightness-[0.93]">Apply now</button>
+            <button onClick={() => { apply(job.id, job.title, job.co); close(); }} className="flex-1 bg-emerald text-white text-sm font-semibold px-[18px] py-3 rounded-[10px] hover:brightness-[0.93]">Apply now</button>
           </div>
         </div>
       </div>

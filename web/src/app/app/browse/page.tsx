@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useApp } from "@/lib/store";
-import { jobsForMarket } from "@/lib/jobs";
+import { useJobs } from "@/lib/use-jobs";
 import JobCard from "@/components/JobCard";
 
 const FILTERS_COMMON = ["Date", "Location", "Workplace", "Degree", "Max experience", "Role", "Job type", "Employment", "More"];
@@ -13,23 +13,32 @@ export default function Browse() {
   const showToast = useApp((s) => s.showToast);
 
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [quickOpen, setQuickOpen] = useState(false);
   const [quickUrl, setQuickUrl] = useState("");
   const [quickJd, setQuickJd] = useState("");
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const { jobs: realJobs, loading, error } = useJobs(market, debouncedSearch);
+
+  function onSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearch(e.target.value);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setDebouncedSearch(e.target.value), 400);
+  }
 
   const filters = [...FILTERS_COMMON];
   if (market === "UK") filters.splice(5, 0, "Sponsors visa");
   filters.splice(2, 0, market === "IN" ? "CTC range" : "Salary range");
 
-  const all = jobsForMarket(market).filter((j) => !appliedIds.includes(j.id) && !passedIds.includes(j.id));
-  const jobs = search ? all.filter((j) => (j.title + j.co).toLowerCase().includes(search.toLowerCase())) : all;
+  const jobs = realJobs.filter((j) => !appliedIds.includes(j.id) && !passedIds.includes(j.id));
 
   return (
     <div className="px-7 pt-6 pb-10 flex flex-col gap-4 min-h-full">
       <div className="flex flex-col gap-3">
         <input
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={onSearchChange}
           placeholder="Search by title, company…"
           className="w-full bg-white border border-mint rounded-[10px] px-3.5 py-2.5 text-sm text-forest outline-none focus:border-emerald"
         />
@@ -60,7 +69,17 @@ export default function Browse() {
         <div className="bg-white border border-mint rounded-[10px] px-4 py-2.5 text-[13px] font-semibold">Saved · 0</div>
       </div>
 
-      {jobs.length === 0 ? (
+      {loading ? (
+        <div className="bg-white border border-dashed border-mint rounded-[14px] py-12 px-6 flex flex-col items-center gap-2.5">
+          <div className="w-6 h-6 border-2 border-emerald border-t-transparent rounded-full animate-spin" />
+          <div className="text-[13px] text-muted">Loading real jobs…</div>
+        </div>
+      ) : error ? (
+        <div className="bg-white border border-red-200 rounded-[14px] py-8 px-6 flex flex-col items-center gap-2">
+          <div className="text-[15px] font-semibold text-red-600">Couldn&apos;t load jobs</div>
+          <div className="text-[13px] text-muted">{error}</div>
+        </div>
+      ) : jobs.length === 0 ? (
         <div className="bg-white border border-dashed border-mint rounded-[14px] py-16 px-8 flex flex-col items-center gap-3 text-center">
           <div className="w-14 h-14 rounded-full bg-sage border border-mint flex items-center justify-center"><div className="w-5 h-5 rounded-md bg-mint" /></div>
           <div className="text-base font-semibold">No jobs in your search</div>

@@ -1,5 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabaseBrowser } from "@/lib/supabase";
+import { useApp } from "@/lib/store";
 
 type Tab = "Apply Settings" | "Password" | "Billing" | "Referrals" | "Email" | "Account";
 type Intensity = "off" | "honest" | "aggressive";
@@ -18,12 +21,65 @@ const COVER_OPTS = [
 ];
 
 export default function Settings() {
+  const router = useRouter();
+  const market = useApp((s) => s.market);
   const [tab, setTab] = useState<Tab>("Apply Settings");
   const [resumeOpt, setResumeOpt] = useState<Intensity>("honest");
   const [coverOpt, setCoverOpt] = useState<Intensity>("honest");
   const [autoR, setAutoR] = useState(true);
   const [autoC, setAutoC] = useState(false);
-  const [pw, setPw] = useState("••••••••••••");
+  const [pw, setPw] = useState("");
+  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    const supabase = supabaseBrowser();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) return;
+      setEmail(user.email || "");
+      setUserId(user.id);
+      supabase.from("profiles").select("resume_opt, cover_letter_opt, auto_approve_resume, auto_approve_cover, app_password_encrypted").eq("id", user.id).single().then(({ data }) => {
+        if (!data) return;
+        if (data.resume_opt) setResumeOpt(data.resume_opt as Intensity);
+        if (data.cover_letter_opt) setCoverOpt(data.cover_letter_opt as Intensity);
+        if (data.auto_approve_resume !== null) setAutoR(data.auto_approve_resume);
+        if (data.auto_approve_cover !== null) setAutoC(data.auto_approve_cover);
+        if (data.app_password_encrypted) setPw(data.app_password_encrypted);
+      });
+    });
+  }, []);
+
+  async function saveSettings() {
+    if (!userId) return;
+    setSaving(true);
+    const supabase = supabaseBrowser();
+    await supabase.from("profiles").update({
+      resume_opt: resumeOpt,
+      cover_letter_opt: coverOpt,
+      auto_approve_resume: autoR,
+      auto_approve_cover: autoC,
+      app_password_encrypted: pw || null,
+    }).eq("id", userId);
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }
+
+  async function deleteAccount() {
+    if (!confirm("Are you sure? This permanently deletes all your data.")) return;
+    const supabase = supabaseBrowser();
+    if (userId) {
+      await supabase.from("applications").delete().eq("user_id", userId);
+      await supabase.from("resumes").delete().eq("user_id", userId);
+      await supabase.from("messages").delete().eq("user_id", userId);
+      await supabase.from("profiles").delete().eq("id", userId);
+    }
+    await supabase.auth.signOut();
+    router.push("/");
+    router.refresh();
+  }
 
   return (
     <div className="px-7 pt-6 pb-10 flex flex-col gap-4 min-h-full">
@@ -57,6 +113,12 @@ export default function Settings() {
           <div className="h-px bg-mint" />
           <SegmentGroup label="Cover letter optimization" opts={COVER_OPTS} value={coverOpt} onChange={setCoverOpt} />
           <ToggleRow label="Auto-approve edits?" on={autoC} onToggle={() => setAutoC(!autoC)} />
+          <div className="flex gap-3 items-center mt-2">
+            <button onClick={saveSettings} disabled={saving} className="bg-emerald text-white text-[13px] font-semibold px-5 py-2.5 rounded-[9px] hover:brightness-[0.93] disabled:opacity-50">
+              {saving ? "Saving…" : "Save settings"}
+            </button>
+            {saved && <span className="text-xs text-emerald font-semibold">Saved ✓</span>}
+          </div>
         </div>
       )}
 
@@ -69,10 +131,13 @@ export default function Settings() {
           <input
             value={pw}
             onChange={(e) => setPw(e.target.value)}
-            placeholder="••••••••••••"
+            placeholder="Application password"
             className="w-full bg-white border border-mint rounded-[10px] px-3.5 py-[11px] text-sm text-forest outline-none focus:border-emerald font-mono"
           />
           <div className="text-[13px] text-muted">Encrypted before save. Never shared with employers.</div>
+          <button onClick={saveSettings} disabled={saving} className="bg-emerald text-white text-[13px] font-semibold px-5 py-2.5 rounded-[9px] hover:brightness-[0.93] disabled:opacity-50 self-start">
+            {saving ? "Saving…" : saved ? "Saved ✓" : "Save password"}
+          </button>
         </div>
       )}
 
@@ -97,11 +162,11 @@ export default function Settings() {
             <div className="grid grid-cols-2 gap-2.5">
               <div className="border border-mint rounded-[10px] p-3 text-center">
                 <div className="text-[13px] font-semibold">Buy 50 pack</div>
-                <div className="text-sm font-bold text-emerald mt-1">₹999 / £29</div>
+                <div className="text-sm font-bold text-emerald mt-1">{market === "IN" ? "₹999" : "£29"}</div>
               </div>
               <div className="border border-mint rounded-[10px] p-3 text-center">
                 <div className="text-[13px] font-semibold">Pro plan</div>
-                <div className="text-sm font-bold text-emerald mt-1">₹4,999 / £149</div>
+                <div className="text-sm font-bold text-emerald mt-1">{market === "IN" ? "₹4,999/mo" : "£149/mo"}</div>
               </div>
             </div>
           </div>
@@ -112,7 +177,9 @@ export default function Settings() {
         <div className="max-w-[520px]">
           <div className="bg-white border border-mint rounded-xl p-[18px] flex flex-col gap-2.5">
             <div className="text-sm font-bold">Your referral link</div>
-            <div className="bg-gray-50 border border-mint rounded-[10px] px-3.5 py-[11px] font-mono text-xs text-gray-600 break-all">obisa.app/invite/alistair-rodrigues-7429</div>
+            <div className="bg-gray-50 border border-mint rounded-[10px] px-3.5 py-[11px] font-mono text-xs text-gray-600 break-all">
+              obisa.app/invite/{email.split("@")[0] || "user"}-{(userId || "").slice(0, 4)}
+            </div>
             <div className="text-xs text-muted">Share this with friends — they get 50 free applications on signup. You both get 10 bonus applications when they apply.</div>
           </div>
         </div>
@@ -123,7 +190,7 @@ export default function Settings() {
           <div className="bg-white border border-mint rounded-xl p-[18px] flex flex-col gap-3">
             <div className="text-sm font-bold">Connected inboxes</div>
             <div className="flex items-center justify-between py-2.5 border-b border-mint">
-              <div className="text-[13px]">alistairar7@gmail.com</div>
+              <div className="text-[13px]">{email}</div>
               <div className="bg-mint text-mint-deep text-[11px] font-bold px-2 py-0.5 rounded">CONNECTED</div>
             </div>
             <div className="text-xs text-muted">We forward OTP codes to this address. obisa never sends you email unless you set up an automation.</div>
@@ -135,14 +202,14 @@ export default function Settings() {
         <div className="max-w-[520px] flex flex-col gap-3.5">
           <div className="bg-white border border-mint rounded-xl p-[18px] flex flex-col gap-3">
             <div className="text-sm font-bold">Account</div>
-            <div className="flex justify-between items-center py-2.5"><div className="text-[13px]">Email</div><div className="text-[13px] text-gray-600 font-semibold">alistairar7@gmail.com</div></div>
+            <div className="flex justify-between items-center py-2.5"><div className="text-[13px]">Email</div><div className="text-[13px] text-gray-600 font-semibold">{email}</div></div>
             <div className="flex justify-between items-center py-2.5 border-t border-b border-mint"><div className="text-[13px]">Account type</div><div className="text-[13px] text-gray-600 font-semibold">Free</div></div>
-            <div className="text-xs text-muted mt-1">Created 14 days ago. Not tracking identifiable information.</div>
+            <div className="text-xs text-muted mt-1">Not tracking identifiable information.</div>
           </div>
           <div className="bg-red-50 border border-red-200 rounded-xl p-3.5 flex flex-col gap-2.5">
             <div className="text-[13px] font-semibold text-red-700">Delete account</div>
             <div className="text-xs text-red-700 leading-[1.5]">Permanently delete all your data, applications, and settings. This cannot be undone.</div>
-            <button className="bg-white text-red-700 rounded-lg px-3 py-2 text-xs font-semibold hover:bg-red-100">Delete my account</button>
+            <button onClick={deleteAccount} className="bg-white text-red-700 rounded-lg px-3 py-2 text-xs font-semibold hover:bg-red-100">Delete my account</button>
           </div>
         </div>
       )}

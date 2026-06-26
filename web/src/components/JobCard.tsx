@@ -42,7 +42,7 @@ export default function JobCard({ job, market }: { job: Job; market: Market }) {
         <div className="flex items-center gap-2 flex-shrink-0">
           <button onClick={() => openDetail(job.id)} className="text-[13px] font-medium text-muted px-1.5 py-2 hover:text-forest">View details</button>
           <button onClick={() => pass(job.id)} className="border border-mint text-forest text-[13px] font-semibold px-[15px] py-2 rounded-[9px] hover:bg-sage">Pass</button>
-          <button onClick={() => apply(job.id)} className="bg-emerald text-white text-[13px] font-semibold px-[19px] py-2 rounded-[9px] hover:brightness-[0.93]">Apply</button>
+          <button onClick={() => apply(job.id, job.title, job.co)} className="bg-emerald text-white text-[13px] font-semibold px-[19px] py-2 rounded-[9px] hover:brightness-[0.93]">Apply</button>
         </div>
       </div>
     </div>
