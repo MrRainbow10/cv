@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #E9EBEA; }
+  body { font-family: 'Geist', sans-serif; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-width: 1320px; padding: 48px 56px 96px; display: flex; flex-direction: column; gap: 64px; color: #1A3C2E;">
+
+  <!-- ============ INTRO ============ -->
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 860px;">
+    <div style="display: flex; align-items: baseline; gap: 10px;">
+      <div style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em;">obisa</div>
+      <div style="width: 8px; height: 8px; border-radius: 2px; background: #10B981; transform: translateY(-2px);"></div>
+      <div style="font-size: 14px; color: #6B7280;">design explorations · round 1</div>
+    </div>
+    <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">Job card · Dashboard · Onboarding</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4B5563; text-wrap: pretty;">Three takes on each, all inside the 60-30-10 green system from the spec (<span style="font-family: 'Geist Mono', monospace; font-size: 13px;">#F0FAF4 / #1A3C2E / #10B981</span>) with Geist for type. Job cards each demo a different currency state. Pick one per section — or mix elements ("V2 ring on V1's layout") — and I'll build the full 12-screen interactive app from it.</p>
+  </div>
+
+  <!-- ============ SECTION 1 — JOB CARD ============ -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #6B7280;">Section 1</div>
+      <div style="font-size: 22px; font-weight: 700;">Job card — 3 variations</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1600px;">
+
+      <!-- V1 -->
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 13px; font-weight: 600; color: #374151;">V1 · Classic — by the spec <span style="font-weight: 400; color: #6B7280;">· badge top-right, chips, ghost/filled actions · ₹ LPA state</span></div>
+        <div style="background: #F0FAF4; border-radius: 16px; padding: 28px;">
+          <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; box-shadow: 0 1px 3px rgba(26,60,46,0.06); display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="font-size: 13px; color: #6B7280;">Bengaluru, India · Hybrid · 2d ago</div>
+              <div style="background: #10B981; color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 999px;">74% match</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: 20px; font-weight: 700; letter-spacing: -0.01em;">Senior Data Analyst</div>
+              <div style="font-size: 15px; font-weight: 600;">₹18–24 LPA <span style="font-weight: 400; color: #6B7280;">· Full-time</span></div>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <div style="background: #F0FAF4; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; padding: 4px 10px; border-radius: 999px;">sql</div>
+              <div style="background: #F0FAF4; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; padding: 4px 10px; border-radius: 999px;">excel</div>
+              <div style="background: #F0FAF4; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; padding: 4px 10px; border-radius: 999px;">python</div>
+              <div style="background: #F0FAF4; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; padding: 4px 10px; border-radius: 999px;">tableau</div>
+              <div style="color: #6B7280; font-size: 13px; padding: 4px 4px;">+12</div>
+            </div>
+            <div style="height: 1px; background: #D1FAE5;"></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+              <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #1A3C2E; color: #FFFFFF; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">ML</div>
+                <div style="display: flex; flex-direction: column; gap: 1px; min-width: 0;">
+                  <div style="font-size: 14px; font-weight: 600;">Meridian Labs</div>
+                  <div style="font-size: 12px; color: #6B7280; font-family: 'Geist Mono', monospace;">boards.greenhouse.io</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+                <div style="font-size: 13px; font-weight: 500; color: #6B7280; padding: 9px 4px; cursor: pointer;" style-hover="color: #1A3C2E;">View details</div>
+                <div style="border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 14px; font-weight: 600; padding: 9px 18px; border-radius: 10px; cursor: pointer;" style-hover="background: #F0FAF4;">Pass</div>
+                <div style="background: #10B981; color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 9px 22px; border-radius: 10px; cursor: pointer; box-shadow: 0 1px 2px rgba(16,185,129,0.35);" style-hover="background: #0EA371;">Apply</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- V2 -->
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 13px; font-weight: 600; color: #374151;">V2 · Score ring — match-forward <span style="font-weight: 400; color: #6B7280;">· conic ring, outline chips · £ GBP state</span></div>
+        <div style="background: #F0FAF4; border-radius: 16px; padding: 28px;">
+          <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 22px 24px; box-shadow: 0 1px 3px rgba(26,60,46,0.06); display: flex; gap: 20px; align-items: stretch;">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding-right: 20px; border-right: 1px solid #D1FAE5;">
+              <div style="width: 62px; height: 62px; border-radius: 50%; background: conic-gradient(#10B981 0deg 295deg, #D1FAE5 295deg 360deg); display: flex; align-items: center; justify-content: center;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #10B981;">82%</div>
+              </div>
+              <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6B7280;">match</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 3px;">
+                  <div style="font-size: 19px; font-weight: 700; letter-spacing: -0.01em;">BI Analyst</div>
+                  <div style="font-size: 13px; color: #6B7280;">Northwind Analytics · London, UK · On-site · 5h ago</div>
+                </div>
+                <div style="width: 34px; height: 34px; border-radius: 8px; background: #F0FAF4; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">NA</div>
+              </div>
+              <div style="font-size: 16px; font-weight: 700;">£45,000–£55,000 <span style="font-size: 13px; font-weight: 400; color: #6B7280;">/ year · Sponsors visa</span></div>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <div style="border: 1px solid #1A3C2E33; color: #1A3C2E; font-size: 12px; padding: 3px 9px; border-radius: 6px;">power bi</div>
+                <div style="border: 1px solid #1A3C2E33; color: #1A3C2E; font-size: 12px; padding: 3px 9px; border-radius: 6px;">sql</div>
+                <div style="border: 1px solid #1A3C2E33; color: #1A3C2E; font-size: 12px; padding: 3px 9px; border-radius: 6px;">dax</div>
+                <div style="border: 1px solid #1A3C2E33; color: #6B7280; font-size: 12px; padding: 3px 9px; border-radius: 6px;">+8</div>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px;">
+                <div style="font-size: 12px; color: #6B7280; font-family: 'Geist Mono', monospace;">nw.wd5.myworkdayjobs.com</div>
+                <div style="display: flex; gap: 8px;">
+                  <div style="color: #6B7280; font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 10px; cursor: pointer;" style-hover="background: #F0FAF4; color: #1A3C2E;">Pass</div>
+                  <div style="background: #10B981; color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 8px 20px; border-radius: 10px; cursor: pointer;" style-hover="background: #0EA371;">Apply →</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- V3 -->
+      <div style="display: flex; flex-direction: column; gap: 10px; grid-column: 1 / -1;">
+        <div style="font-size: 13px; font-weight: 600; color: #374151;">V3 · Ledger row — dense, scannable <span style="font-weight: 400; color: #6B7280;">· table-like grid, fast bulk triage · shows USD-remote + not-disclosed states</span></div>
+        <div style="background: #F0FAF4; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 16px 20px; display: grid; grid-template-columns: 42px 1.6fr 1fr 110px auto; gap: 18px; align-items: center;">
+            <div style="width: 42px; height: 42px; border-radius: 10px; background: #1A3C2E; color: #FFFFFF; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center;">OS</div>
+            <div style="display: flex; flex-direction: column; gap: 3px; min-width: 0;">
+              <div style="font-size: 16px; font-weight: 700;">Data Scientist</div>
+              <div style="font-size: 13px; color: #6B7280;">Ostrove · Remote · paid in USD · 1d ago</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <div style="font-size: 15px; font-weight: 600;">$120k <span style="font-weight: 400; font-size: 12px; color: #6B7280;">≈ ₹1.0 Cr/yr — estimate</span></div>
+              <div style="font-size: 12px; color: #6B7280; font-family: 'Geist Mono', monospace;">jobs.lever.co</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+              <div style="font-size: 14px; font-weight: 700; color: #10B981;">68% match</div>
+              <div style="height: 4px; border-radius: 999px; background: #D1FAE5; overflow: hidden;"><div style="width: 68%; height: 100%; background: #10B981; border-radius: 999px;"></div></div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <div style="border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 9px; cursor: pointer;" style-hover="background: #F0FAF4;">Pass</div>
+              <div style="background: #10B981; color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 8px 18px; border-radius: 9px; cursor: pointer;" style-hover="background: #0EA371;">Apply</div>
+            </div>
+          </div>
+          <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 16px 20px; display: grid; grid-template-columns: 42px 1.6fr 1fr 110px auto; gap: 18px; align-items: center;">
+            <div style="width: 42px; height: 42px; border-radius: 10px; background: #F0FAF4; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center;">KV</div>
+            <div style="display: flex; flex-direction: column; gap: 3px; min-width: 0;">
+              <div style="font-size: 16px; font-weight: 700;">Analytics Engineer</div>
+              <div style="font-size: 13px; color: #6B7280;">Kavarna · Pune, India · Hybrid · 3d ago</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <div style="font-size: 14px; font-weight: 500; color: #6B7280;">Salary not disclosed</div>
+              <div style="font-size: 12px; color: #6B7280; font-family: 'Geist Mono', monospace;">kavarna.naukri.com</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+              <div style="font-size: 14px; font-weight: 700; color: #10B981;">91% match</div>
+              <div style="height: 4px; border-radius: 999px; background: #D1FAE5; overflow: hidden;"><div style="width: 91%; height: 100%; background: #10B981; border-radius: 999px;"></div></div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <div style="border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 9px; cursor: pointer;" style-hover="background: #F0FAF4;">Pass</div>
+              <div style="background: #10B981; color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 8px 18px; border-radius: 9px; cursor: pointer;" style-hover="background: #0EA371;">Apply</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 2 — DASHBOARD ============ -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #6B7280;">Section 2</div>
+      <div style="font-size: 22px; font-weight: 700;">Dashboard — 3 layouts</div>
+      <div style="font-size: 14px; color: #6B7280;">Simplified mocks — final build gets full nav, filters, channels, plan widget.</div>
+    </div>
+
+    <!-- DASH V1 -->
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 13px; font-weight: 600; color: #374151;">V1 · Forest rail + two columns <span style="font-weight: 400; color: #6B7280;">· by the spec: matches left, tracker summary right</span></div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(26,60,46,0.06);">
+        <div style="border-radius: 10px; overflow: hidden; border: 1px solid #E5E7EB; display: grid; grid-template-columns: 216px 1fr; height: 620px;">
+          <!-- rail -->
+          <div style="background: #1A3C2E; color: #E7F5EC; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; align-items: baseline; gap: 6px; padding: 0 10px 18px;">
+              <div style="font-size: 19px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.01em;">obisa</div>
+              <div style="width: 6px; height: 6px; border-radius: 2px; background: #10B981;"></div>
+            </div>
+            <div style="background: #10B981; color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #FFFFFF44; flex-shrink: 0;"></div>Dashboard</div>
+            <div style="font-size: 14px; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; cursor: pointer; color: #BBD8C6;" style-hover="background: #FFFFFF14;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #FFFFFF22; flex-shrink: 0;"></div>Browse jobs</div>
+            <div style="font-size: 14px; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; cursor: pointer; color: #BBD8C6;" style-hover="background: #FFFFFF14;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #FFFFFF22; flex-shrink: 0;"></div>Inbox</div>
+            <div style="font-size: 14px; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; cursor: pointer; color: #BBD8C6;" style-hover="background: #FFFFFF14;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #FFFFFF22; flex-shrink: 0;"></div>Tracker</div>
+            <div style="font-size: 14px; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; cursor: pointer; color: #BBD8C6;" style-hover="background: #FFFFFF14;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #FFFFFF22; flex-shrink: 0;"></div>Profile</div>
+            <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #7FA890; padding: 16px 10px 6px;">Channels</div>
+            <div style="font-size: 13px; padding: 7px 10px; color: #BBD8C6;">WhatsApp</div>
+            <div style="font-size: 13px; padding: 7px 10px; color: #BBD8C6;">Email</div>
+            <div style="flex: 1;"></div>
+            <div style="background: #FFFFFF12; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: 12px; color: #BBD8C6;">Applications left</div>
+              <div style="font-size: 14px; font-weight: 700; color: #FFFFFF;">25 / 25 free</div>
+              <div style="height: 4px; background: #FFFFFF22; border-radius: 999px;"><div style="width: 100%; height: 100%; background: #10B981; border-radius: 999px;"></div></div>
+              <div style="font-size: 12px; color: #10B981; font-weight: 600; cursor: pointer;">Upgrade →</div>
+            </div>
+          </div>
+          <!-- main -->
+          <div style="background: #F0FAF4; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; overflow: hidden;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="flex: 1; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 9px 14px; font-size: 13px; color: #9CA3AF;">Search by title, company…</div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 999px; padding: 7px 14px; font-size: 13px; font-weight: 600;">🇮🇳 India</div>
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: #1A3C2E; color: #FFFFFF; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;">AR</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1.7fr 1fr; gap: 16px; flex: 1; min-height: 0;">
+              <div style="display: flex; flex-direction: column; gap: 10px; min-height: 0;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 17px; font-weight: 700;">Top job matches</div>
+                  <div style="background: #10B981; color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 9px; cursor: pointer;">Apply to all 12</div>
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;"><div style="font-size: 12px; color: #6B7280;">Bengaluru · 2d</div><div style="background: #10B981; color: #FFFFFF; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;">74%</div></div>
+                  <div style="font-size: 16px; font-weight: 700;">Senior Data Analyst</div>
+                  <div style="font-size: 13px; color: #6B7280;">Meridian Labs · ₹18–24 LPA</div>
+                  <div style="display: flex; justify-content: flex-end; gap: 8px;"><div style="border: 1px solid #D1FAE5; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px;">Pass</div><div style="background: #10B981; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 8px;">Apply</div></div>
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;"><div style="font-size: 12px; color: #6B7280;">Pune · 3d</div><div style="background: #10B981; color: #FFFFFF; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;">91%</div></div>
+                  <div style="font-size: 16px; font-weight: 700;">Analytics Engineer</div>
+                  <div style="font-size: 13px; color: #6B7280;">Kavarna · Salary not disclosed</div>
+                  <div style="display: flex; justify-content: flex-end; gap: 8px;"><div style="border: 1px solid #D1FAE5; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px;">Pass</div><div style="background: #10B981; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 8px;">Apply</div></div>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px; min-height: 0;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 17px; font-weight: 700;">Tracker</div>
+                  <div style="font-size: 13px; font-weight: 600; color: #10B981; cursor: pointer;">Open tracker →</div>
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                    <div style="background: #F0FAF4; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 18px; font-weight: 700;">14</div><div style="font-size: 11px; color: #6B7280;">Submitted</div></div>
+                    <div style="background: #F0FAF4; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 18px; font-weight: 700;">3</div><div style="font-size: 11px; color: #6B7280;">In flight</div></div>
+                    <div style="background: #FFF7E8; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 18px; font-weight: 700; color: #B45309;">2</div><div style="font-size: 11px; color: #B45309;">Needs you</div></div>
+                  </div>
+                  <div style="background: #10B981; color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 8px; border-radius: 9px; text-align: center; cursor: pointer;">Approve all</div>
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Meridian Labs</div><div style="background: #DBEAFE; color: #1D4ED8; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px;">Applied</div></div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Ostrove</div><div style="background: #D1FAE5; color: #047857; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px;">Interviewing</div></div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Kavarna</div><div style="background: #FEF3C7; color: #B45309; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px;">Assessment</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASH V2 -->
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 13px; font-weight: 600; color: #374151;">V2 · Light rail + stat strip <span style="font-weight: 400; color: #6B7280;">· tracker counters as a horizontal strip, matches full-width below</span></div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(26,60,46,0.06);">
+        <div style="border-radius: 10px; overflow: hidden; border: 1px solid #E5E7EB; display: grid; grid-template-columns: 216px 1fr; height: 560px;">
+          <!-- light rail -->
+          <div style="background: #FFFFFF; border-right: 1px solid #D1FAE5; padding: 20px 14px; display: flex; flex-direction: column; gap: 2px;">
+            <div style="display: flex; align-items: baseline; gap: 6px; padding: 0 10px 18px;">
+              <div style="font-size: 19px; font-weight: 700; letter-spacing: -0.01em;">obisa</div>
+              <div style="width: 6px; height: 6px; border-radius: 2px; background: #10B981;"></div>
+            </div>
+            <div style="background: #F0FAF4; color: #1A3C2E; font-size: 14px; font-weight: 600; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; border-left: none; position: relative;"><div style="position: absolute; left: -14px; top: 8px; bottom: 8px; width: 3px; border-radius: 999px; background: #10B981;"></div><div style="width: 14px; height: 14px; border-radius: 4px; background: #10B981; flex-shrink: 0;"></div>Dashboard</div>
+            <div style="font-size: 14px; color: #4B5563; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; cursor: pointer;" style-hover="background: #F0FAF4;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #D1FAE5; flex-shrink: 0;"></div>Browse jobs</div>
+            <div style="font-size: 14px; color: #4B5563; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; cursor: pointer;" style-hover="background: #F0FAF4;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #D1FAE5; flex-shrink: 0;"></div>Inbox</div>
+            <div style="font-size: 14px; color: #4B5563; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; cursor: pointer;" style-hover="background: #F0FAF4;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #D1FAE5; flex-shrink: 0;"></div>Tracker</div>
+            <div style="font-size: 14px; color: #4B5563; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 9px; cursor: pointer;" style-hover="background: #F0FAF4;"><div style="width: 14px; height: 14px; border-radius: 4px; background: #D1FAE5; flex-shrink: 0;"></div>Profile</div>
+            <div style="flex: 1;"></div>
+            <div style="border: 1px solid #D1FAE5; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="font-size: 12px; color: #6B7280;">Applications left</div>
+              <div style="font-size: 14px; font-weight: 700;">25 / 25 free</div>
+              <div style="font-size: 12px; color: #10B981; font-weight: 600; cursor: pointer;">Upgrade →</div>
+            </div>
+          </div>
+          <!-- main -->
+          <div style="background: #F0FAF4; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; overflow: hidden;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between;">
+              <div style="font-size: 20px; font-weight: 700;">Good morning, Alistair</div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 999px; padding: 6px 13px; font-size: 13px; font-weight: 600;">🇮🇳 India</div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;">
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 20px; font-weight: 700;">19</div><div style="font-size: 11px; color: #6B7280;">All</div></div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 20px; font-weight: 700;">14</div><div style="font-size: 11px; color: #6B7280;">Submitted</div></div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 20px; font-weight: 700;">3</div><div style="font-size: 11px; color: #6B7280;">In flight</div></div>
+              <div style="background: #FFFFFF; border: 1px solid #F59E0B55; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 20px; font-weight: 700; color: #B45309;">2</div><div style="font-size: 11px; color: #B45309;">Needs you</div></div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 20px; font-weight: 700; color: #EF4444;">0</div><div style="font-size: 11px; color: #6B7280;">Failed</div></div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 20px; font-weight: 700;">0</div><div style="font-size: 11px; color: #6B7280;">Skipped</div></div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="font-size: 16px; font-weight: 700;">Top job matches</div>
+              <div style="display: flex; gap: 8px;">
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; font-size: 13px; font-weight: 600; padding: 7px 13px; border-radius: 9px; cursor: pointer;">Add your own</div>
+                <div style="background: #10B981; color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 9px; cursor: pointer;">Apply to all 12</div>
+              </div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 14px 18px; display: grid; grid-template-columns: 36px 1.6fr 1fr 90px auto; gap: 14px; align-items: center;">
+              <div style="width: 36px; height: 36px; border-radius: 9px; background: #1A3C2E; color: #FFFFFF; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;">ML</div>
+              <div style="display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 15px; font-weight: 700;">Senior Data Analyst</div><div style="font-size: 12px; color: #6B7280;">Meridian Labs · Bengaluru</div></div>
+              <div style="font-size: 13px; font-weight: 600;">₹18–24 LPA</div>
+              <div style="font-size: 13px; font-weight: 700; color: #10B981;">74%</div>
+              <div style="display: flex; gap: 8px;"><div style="border: 1px solid #D1FAE5; font-size: 12px; font-weight: 600; padding: 7px 12px; border-radius: 8px;">Pass</div><div style="background: #10B981; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 7px 15px; border-radius: 8px;">Apply</div></div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 14px 18px; display: grid; grid-template-columns: 36px 1.6fr 1fr 90px auto; gap: 14px; align-items: center;">
+              <div style="width: 36px; height: 36px; border-radius: 9px; background: #F0FAF4; border: 1px solid #D1FAE5; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;">KV</div>
+              <div style="display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 15px; font-weight: 700;">Analytics Engineer</div><div style="font-size: 12px; color: #6B7280;">Kavarna · Pune</div></div>
+              <div style="font-size: 13px; color: #6B7280;">Not disclosed</div>
+              <div style="font-size: 13px; font-weight: 700; color: #10B981;">91%</div>
+              <div style="display: flex; gap: 8px;"><div style="border: 1px solid #D1FAE5; font-size: 12px; font-weight: 600; padding: 7px 12px; border-radius: 8px;">Pass</div><div style="background: #10B981; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 7px 15px; border-radius: 8px;">Apply</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASH V3 -->
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 13px; font-weight: 600; color: #374151;">V3 · Mission control <span style="font-weight: 400; color: #6B7280;">· forest header band with stats, content on sage; rail collapses to icons</span></div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(26,60,46,0.06);">
+        <div style="border-radius: 10px; overflow: hidden; border: 1px solid #E5E7EB; display: grid; grid-template-columns: 64px 1fr; height: 560px;">
+          <!-- icon rail -->
+          <div style="background: #122B20; padding: 18px 0; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+            <div style="width: 30px; height: 30px; border-radius: 8px; background: #10B981; color: #FFFFFF; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">o</div>
+            <div style="width: 38px; height: 38px; border-radius: 10px; background: #FFFFFF1F; display: flex; align-items: center; justify-content: center;"><div style="width: 15px; height: 15px; border-radius: 4px; background: #10B981;"></div></div>
+            <div style="width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: #FFFFFF14;"><div style="width: 15px; height: 15px; border-radius: 4px; background: #FFFFFF33;"></div></div>
+            <div style="width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: #FFFFFF14;"><div style="width: 15px; height: 15px; border-radius: 50%; background: #FFFFFF33;"></div></div>
+            <div style="width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer;" style-hover="background: #FFFFFF14;"><div style="width: 15px; height: 15px; border-radius: 4px; background: #FFFFFF33; transform: rotate(45deg);"></div></div>
+            <div style="flex: 1;"></div>
+            <div style="width: 34px; height: 34px; border-radius: 50%; background: #1A3C2E; border: 2px solid #10B981; color: #FFFFFF; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center;">AR</div>
+          </div>
+          <!-- main -->
+          <div style="background: #F0FAF4; display: flex; flex-direction: column; overflow: hidden;">
+            <!-- forest band -->
+            <div style="background: #1A3C2E; color: #FFFFFF; padding: 22px 28px 26px; display: flex; flex-direction: column; gap: 16px;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; flex-direction: column; gap: 3px;">
+                  <div style="font-size: 21px; font-weight: 700; letter-spacing: -0.01em;">12 new matches overnight</div>
+                  <div style="font-size: 13px; color: #BBD8C6;">3 applications in flight · 2 need your approval</div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                  <div style="border: 1px solid #FFFFFF33; color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 9px 16px; border-radius: 10px; cursor: pointer;" style-hover="background: #FFFFFF14;">Review 2 pending</div>
+                  <div style="background: #10B981; color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 10px; cursor: pointer;" style-hover="background: #0EA371;">Apply to all 12</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 28px;">
+                <div style="display: flex; flex-direction: column; gap: 1px;"><div style="font-size: 22px; font-weight: 700;">19</div><div style="font-size: 11px; color: #7FA890; text-transform: uppercase; letter-spacing: 0.08em;">applied</div></div>
+                <div style="display: flex; flex-direction: column; gap: 1px;"><div style="font-size: 22px; font-weight: 700;">4</div><div style="font-size: 11px; color: #7FA890; text-transform: uppercase; letter-spacing: 0.08em;">interviews</div></div>
+                <div style="display: flex; flex-direction: column; gap: 1px;"><div style="font-size: 22px; font-weight: 700; color: #10B981;">1</div><div style="font-size: 11px; color: #7FA890; text-transform: uppercase; letter-spacing: 0.08em;">offer</div></div>
+                <div style="display: flex; flex-direction: column; gap: 1px;"><div style="font-size: 22px; font-weight: 700;">68%</div><div style="font-size: 11px; color: #7FA890; text-transform: uppercase; letter-spacing: 0.08em;">avg match</div></div>
+              </div>
+            </div>
+            <!-- content -->
+            <div style="padding: 18px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; overflow: hidden;">
+              <div style="font-size: 15px; font-weight: 700;">Top job matches</div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 14px 18px; display: grid; grid-template-columns: 36px 1.6fr 1fr 90px auto; gap: 14px; align-items: center;">
+                <div style="width: 36px; height: 36px; border-radius: 9px; background: #1A3C2E; color: #FFFFFF; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;">ML</div>
+                <div style="display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 15px; font-weight: 700;">Senior Data Analyst</div><div style="font-size: 12px; color: #6B7280;">Meridian Labs · Bengaluru</div></div>
+                <div style="font-size: 13px; font-weight: 600;">₹18–24 LPA</div>
+                <div style="font-size: 13px; font-weight: 700; color: #10B981;">74%</div>
+                <div style="display: flex; gap: 8px;"><div style="border: 1px solid #D1FAE5; font-size: 12px; font-weight: 600; padding: 7px 12px; border-radius: 8px;">Pass</div><div style="background: #10B981; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 7px 15px; border-radius: 8px;">Apply</div></div>
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 14px 18px; display: grid; grid-template-columns: 36px 1.6fr 1fr 90px auto; gap: 14px; align-items: center;">
+                <div style="width: 36px; height: 36px; border-radius: 9px; background: #F0FAF4; border: 1px solid #D1FAE5; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;">OS</div>
+                <div style="display: flex; flex-direction: column; gap: 2px;"><div style="font-size: 15px; font-weight: 700;">Data Scientist</div><div style="font-size: 12px; color: #6B7280;">Ostrove · Remote · paid in USD</div></div>
+                <div style="font-size: 13px; font-weight: 600;">$120k <span style="font-weight: 400; color: #6B7280; font-size: 11px;">≈ ₹1.0 Cr — est.</span></div>
+                <div style="font-size: 13px; font-weight: 700; color: #10B981;">68%</div>
+                <div style="display: flex; gap: 8px;"><div style="border: 1px solid #D1FAE5; font-size: 12px; font-weight: 600; padding: 7px 12px; border-radius: 8px;">Pass</div><div style="background: #10B981; color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 7px 15px; border-radius: 8px;">Apply</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 3 — ONBOARDING ============ -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #6B7280;">Section 3</div>
+      <div style="font-size: 22px; font-weight: 700;">Onboarding — 3 styles</div>
+      <div style="font-size: 14px; color: #6B7280;">All shown on Step 1 (resume upload), with the resume-parsing chip and autosave per the spec.</div>
+    </div>
+
+    <!-- ONB V1 -->
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 13px; font-weight: 600; color: #374151;">V1 · Centered column — by the spec <span style="font-weight: 400; color: #6B7280;">· 560px card, segmented progress, keyboard hints</span></div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(26,60,46,0.06);">
+        <div style="border-radius: 10px; border: 1px solid #E5E7EB; background: #F0FAF4; height: 580px; display: flex; flex-direction: column; align-items: center; padding: 28px 24px; overflow: hidden;">
+          <div style="width: 100%; max-width: 560px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: baseline; gap: 5px;"><div style="font-size: 17px; font-weight: 700;">obisa</div><div style="width: 5px; height: 5px; border-radius: 2px; background: #10B981;"></div></div>
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 999px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: #1A3C2E; display: flex; align-items: center; gap: 7px;">
+              <div style="width: 7px; height: 7px; border-radius: 50%; background: #F59E0B;"></div>Resume — in progress
+            </div>
+          </div>
+          <div style="width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: 8px; margin-top: 26px;">
+            <div style="display: flex; gap: 6px;">
+              <div style="flex: 1; height: 4px; border-radius: 999px; background: #10B981;"></div>
+              <div style="flex: 1; height: 4px; border-radius: 999px; background: #D1FAE5;"></div>
+              <div style="flex: 1; height: 4px; border-radius: 999px; background: #D1FAE5;"></div>
+            </div>
+            <div style="font-size: 12px; color: #6B7280;">Step 1 of 3</div>
+          </div>
+          <div style="width: 100%; max-width: 560px; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 16px; padding: 32px; margin-top: 14px; box-shadow: 0 2px 10px rgba(26,60,46,0.05); display: flex; flex-direction: column; gap: 18px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: 26px; font-weight: 700; letter-spacing: -0.02em;">Upload your resume.</div>
+              <div style="font-size: 14px; line-height: 1.55; color: #6B7280; text-wrap: pretty;">PDF only, under 10MB. We parse it, draft a cover letter, and have matches waiting by the time you finish setup.</div>
+            </div>
+            <div style="border: 2px dashed #10B98166; border-radius: 12px; background: #F0FAF4; padding: 34px 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer;" style-hover="border-color: #10B981; background: #E6F7EE;">
+              <div style="font-size: 15px; font-weight: 600;">Drop your PDF here, or <span style="color: #10B981; text-decoration: underline;">browse</span></div>
+              <div style="font-size: 12px; color: #6B7280;">Resume · PDF only · up to 10MB</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="font-size: 13px; font-weight: 600;">Referral code <span style="font-weight: 400; color: #6B7280;">· optional</span></div>
+              <div style="border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #9CA3AF;">e.g. JOHN1234</div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+              <div style="font-size: 12px; color: #6B7280;">Takes about 30 seconds · Step 1 of 3</div>
+              <div style="background: #10B981; color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 11px 22px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 9px;" style-hover="background: #0EA371;">Continue <span style="background: #FFFFFF2E; border-radius: 5px; padding: 1px 7px; font-size: 12px;">↵</span></div>
+            </div>
+          </div>
+          <div style="margin-top: 14px; font-size: 12px; color: #9CA3AF; display: flex; align-items: center; gap: 6px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: #10B981;"></div>Autosaved</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONB V2 -->
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 13px; font-weight: 600; color: #374151;">V2 · Split rail — steps always visible <span style="font-weight: 400; color: #6B7280;">· forest panel with step list + live resume status, form on the right</span></div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(26,60,46,0.06);">
+        <div style="border-radius: 10px; border: 1px solid #E5E7EB; height: 580px; display: grid; grid-template-columns: 340px 1fr; overflow: hidden;">
+          <div style="background: #1A3C2E; color: #FFFFFF; padding: 32px 28px; display: flex; flex-direction: column; gap: 0;">
+            <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 44px;"><div style="font-size: 19px; font-weight: 700;">obisa</div><div style="width: 6px; height: 6px; border-radius: 2px; background: #10B981;"></div></div>
+            <div style="display: flex; gap: 14px;">
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: #10B981; color: #FFFFFF; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;">1</div>
+                <div style="width: 2px; flex: 1; background: #FFFFFF22; margin: 6px 0;"></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 3px; padding-bottom: 28px;">
+                <div style="font-size: 15px; font-weight: 700;">Resume</div>
+                <div style="font-size: 13px; color: #BBD8C6;">Upload &amp; parse</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 14px;">
+              <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #FFFFFF33; color: #BBD8C6; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center;">2</div>
+                <div style="width: 2px; flex: 1; background: #FFFFFF22; margin: 6px 0;"></div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 3px; padding-bottom: 28px;">
+                <div style="font-size: 15px; font-weight: 600; color: #BBD8C6;">About you</div>
+                <div style="font-size: 13px; color: #7FA890;">Location, contact, eligibility</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 14px;">
+              <div style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid #FFFFFF33; color: #BBD8C6; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+              <div style="display: flex; flex-direction: column; gap: 3px;">
+                <div style="font-size: 15px; font-weight: 600; color: #BBD8C6;">Application setup</div>
+                <div style="font-size: 13px; color: #7FA890;">Password, optimization, roles</div>
+              </div>
+            </div>
+            <div style="flex: 1;"></div>
+            <div style="background: #FFFFFF12; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 7px;">
+              <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 8px; height: 8px; border-radius: 50%; background: #F59E0B;"></div><div style="font-size: 13px; font-weight: 600;">Resume — in progress</div></div>
+              <div style="font-size: 12px; color: #BBD8C6; line-height: 1.5; text-wrap: pretty;">Takes 30–60 seconds. We're pulling your work history and skills while you finish these.</div>
+            </div>
+          </div>
+          <div style="background: #F0FAF4; padding: 48px 56px; display: flex; flex-direction: column; gap: 20px; overflow: hidden;">
+            <div style="display: flex; flex-direction: column; gap: 8px; max-width: 520px;">
+              <div style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">Upload your resume.</div>
+              <div style="font-size: 14px; line-height: 1.55; color: #6B7280; text-wrap: pretty;">PDF only, under 10MB. We parse it, draft a cover letter, and have matches waiting by the time you finish setup.</div>
+            </div>
+            <div style="max-width: 520px; border: 2px dashed #10B98166; border-radius: 12px; background: #FFFFFF; padding: 38px 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer;" style-hover="border-color: #10B981;">
+              <div style="font-size: 15px; font-weight: 600;">Drop your PDF here, or <span style="color: #10B981; text-decoration: underline;">browse</span></div>
+              <div style="font-size: 12px; color: #6B7280;">Resume · PDF only · up to 10MB</div>
+            </div>
+            <div style="max-width: 520px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="font-size: 13px; font-weight: 600;">Referral code <span style="font-weight: 400; color: #6B7280;">· optional</span></div>
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #9CA3AF;">e.g. JOHN1234</div>
+            </div>
+            <div style="flex: 1;"></div>
+            <div style="max-width: 520px; display: flex; align-items: center; justify-content: space-between;">
+              <div style="font-size: 12px; color: #9CA3AF; display: flex; align-items: center; gap: 6px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: #10B981;"></div>Autosaved</div>
+              <div style="background: #10B981; color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 11px 22px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 9px;" style-hover="background: #0EA371;">Continue <span style="background: #FFFFFF2E; border-radius: 5px; padding: 1px 7px; font-size: 12px;">↵</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONB V3 -->
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 13px; font-weight: 600; color: #374151;">V3 · Conversational — one big question <span style="font-weight: 400; color: #6B7280;">· typeform-like focus, oversized type, thin progress bar</span></div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(26,60,46,0.06);">
+        <div style="border-radius: 10px; border: 1px solid #E5E7EB; background: #FFFFFF; height: 580px; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+          <div style="height: 4px; background: #D1FAE5;"><div style="width: 33%; height: 100%; background: #10B981;"></div></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px 36px;">
+            <div style="display: flex; align-items: baseline; gap: 5px;"><div style="font-size: 17px; font-weight: 700;">obisa</div><div style="width: 5px; height: 5px; border-radius: 2px; background: #10B981;"></div></div>
+            <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 999px; padding: 5px 12px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 7px;"><div style="width: 7px; height: 7px; border-radius: 50%; background: #F59E0B;"></div>Resume — in progress</div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 36px; max-width: 760px; margin: 0 auto; width: 100%; gap: 26px;">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="font-size: 13px; font-weight: 600; color: #10B981; letter-spacing: 0.06em;">1 → 3</div>
+              <div style="font-size: 40px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.1;">Upload your resume.</div>
+              <div style="font-size: 16px; line-height: 1.55; color: #6B7280; max-width: 560px; text-wrap: pretty;">PDF only, under 10MB. We parse it, draft a cover letter, and have matches waiting by the time you finish setup.</div>
+            </div>
+            <div style="border: 2px dashed #10B98166; border-radius: 14px; background: #F0FAF4; padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 7px; cursor: pointer;" style-hover="border-color: #10B981; background: #E6F7EE;">
+              <div style="font-size: 17px; font-weight: 600;">Drop your PDF here, or <span style="color: #10B981; text-decoration: underline;">browse</span></div>
+              <div style="font-size: 13px; color: #6B7280;">Resume · PDF only · up to 10MB</div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="font-size: 13px; color: #6B7280;">Referral code? <span style="color: #10B981; font-weight: 600; cursor: pointer;">Add it here</span></div>
+              <div style="background: #10B981; color: #FFFFFF; font-size: 15px; font-weight: 600; padding: 13px 26px; border-radius: 11px; cursor: pointer; display: flex; align-items: center; gap: 9px;" style-hover="background: #0EA371;">Continue <span style="background: #FFFFFF2E; border-radius: 5px; padding: 1px 7px; font-size: 12px;">↵</span></div>
+            </div>
+          </div>
+          <div style="padding: 18px 36px; display: flex; justify-content: center; font-size: 12px; color: #9CA3AF; gap: 16px;">
+            <span><span style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 5px; padding: 1px 7px;">↵</span> Continue</span>
+            <span><span style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 5px; padding: 1px 7px;">⇧ Tab</span> Back</span>
+            <span style="display: flex; align-items: center; gap: 6px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: #10B981;"></div>Autosaved</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ NEXT STEPS ============ -->
+  <div style="max-width: 860px; background: #FFFFFF; border-radius: 14px; padding: 24px 28px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 2px 8px rgba(26,60,46,0.06);">
+    <div style="font-size: 15px; font-weight: 700;">Next steps</div>
+    <div style="font-size: 14px; line-height: 1.7; color: #4B5563; text-wrap: pretty;">Tell me which direction you want per section — e.g. "Job card V1, Dashboard V3, Onboarding V2" — or mix elements across them. Then I'll build the full interactive app: all 12 screens, working onboarding flow with validation, 🇮🇳/🌍 market variants, empty/populated state switcher, WhatsApp modal, job detail panel with every currency state, and Tweaks for accent color, market, and data state.</div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

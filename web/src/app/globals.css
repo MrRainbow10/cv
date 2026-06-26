@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { margin: 0; padding: 0; background: #F0FAF4; }
+body { font-family: 'Geist', sans-serif; -webkit-font-smoothing: antialiased; color: #1A3C2E; font-size: 15px; }
+* { box-sizing: border-box; }
+input, select, textarea, button { font-family: inherit; }
+::placeholder { color: #9CA3AF; }
