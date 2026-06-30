@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #F0FAF4; }
+  body { font-family: 'Geist', sans-serif; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  input, select, textarea, button { font-family: 'Geist', sans-serif; }
+  @keyframes obisa-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  ::placeholder { color: #9CA3AF; }
+</style>
+</helmet>
+
+<div data-screen-label="obisa" style="min-height: 100vh; background: #F0FAF4; color: #1A3C2E; font-size: 15px; --accent: {{ accent }};">
+
+  <!-- ================= LANDING ================= -->
+  <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="Landing — market toggle" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; gap: 28px;">
+      <div style="display: flex; align-items: baseline; gap: 7px;">
+        <div style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em;">obisa</div>
+        <div style="width: 7px; height: 7px; border-radius: 2px; background: var(--accent, #10B981);"></div>
+      </div>
+      <div style="width: 100%; max-width: 560px; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 16px; padding: 40px; box-shadow: 0 2px 12px rgba(26,60,46,0.06); display: flex; flex-direction: column; gap: 24px;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">Where are you job hunting?</div>
+          <div style="font-size: 14px; color: #6B7280;">We tailor everything — forms, salaries, visa questions — to your market.</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div onClick="{{ pickIndia }}" style="border: 2px solid #D1FAE5; border-radius: 14px; padding: 26px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; background: #FFFFFF;" style-hover="border-color: var(--accent, #10B981); background: #F0FAF4;">
+            <div style="font-size: 32px; line-height: 1;">🇮🇳</div>
+            <div style="font-size: 17px; font-weight: 700;">India</div>
+            <div style="font-size: 12px; color: #6B7280;">₹ LPA · Naukri · CTC</div>
+          </div>
+          <div onClick="{{ pickUK }}" style="border: 2px solid #D1FAE5; border-radius: 14px; padding: 26px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; background: #FFFFFF;" style-hover="border-color: var(--accent, #10B981); background: #F0FAF4;">
+            <div style="font-size: 32px; line-height: 1;">🌍</div>
+            <div style="font-size: 17px; font-weight: 700;">Abroad (UK)</div>
+            <div style="font-size: 12px; color: #6B7280;">£ GBP · visa sponsorship</div>
+          </div>
+        </div>
+        <div style="font-size: 13px; color: #6B7280; text-align: center;">You can change this later in Settings.</div>
+      </div>
+      <div onClick="{{ skipToApp }}" style="font-size: 13px; color: #6B7280; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;" style-hover="color: #1A3C2E;">Skip setup — view the app with sample data →</div>
+    </div>
+  </sc-if>
+
+  <!-- ================= ONBOARDING (split rail) ================= -->
+  <sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ false }}">
+    <div style="display: grid; grid-template-columns: 340px 1fr; height: 100vh; overflow: hidden;">
+      <!-- left forest rail -->
+      <div style="background: #1A3C2E; color: #FFFFFF; padding: 32px 28px; display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 44px;">
+          <div style="font-size: 19px; font-weight: 700;">obisa</div>
+          <div style="width: 6px; height: 6px; border-radius: 2px; background: var(--accent, #10B981);"></div>
+        </div>
+        <sc-for list="{{ stepItems }}" as="st" hint-placeholder-count="3">
+          <div style="display: flex; gap: 14px;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <div onClick="{{ st.go }}" style="width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; cursor: pointer; background: {{ st.cBg }}; border: 2px solid {{ st.cBd }}; color: {{ st.cFg }};">{{ st.mark }}</div>
+              <sc-if value="{{ st.line }}" hint-placeholder-val="{{ true }}">
+                <div style="width: 2px; flex: 1; background: #FFFFFF22; margin: 6px 0; min-height: 22px;"></div>
+              </sc-if>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 3px; padding-bottom: 26px;">
+              <div style="font-size: 15px; font-weight: 700; color: {{ st.tFg }};">{{ st.title }}</div>
+              <div style="font-size: 13px; color: #7FA890;">{{ st.sub }}</div>
+            </div>
+          </div>
+        </sc-for>
+        <div style="flex: 1;"></div>
+        <sc-if value="{{ resumeParsing }}" hint-placeholder-val="{{ false }}">
+          <div style="background: #FFFFFF12; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 7px;">
+            <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 8px; height: 8px; border-radius: 50%; background: #F59E0B; animation: obisa-pulse 1.6s ease-in-out infinite;"></div><div style="font-size: 13px; font-weight: 600;">Resume — in progress</div></div>
+            <div style="font-size: 12px; color: #BBD8C6; line-height: 1.5; text-wrap: pretty;">Takes 30–60 seconds. We're pulling your work history and skills while you finish these.</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ resumeDone }}" hint-placeholder-val="{{ false }}">
+          <div style="background: #FFFFFF12; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 7px;">
+            <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent, #10B981);"></div><div style="font-size: 13px; font-weight: 600;">Resume — done</div></div>
+            <div style="font-size: 12px; color: #BBD8C6; line-height: 1.5;">Parsed alistair-rodrigues-resume.pdf — work history and skills extracted.</div>
+          </div>
+        </sc-if>
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 18px; font-size: 12px; color: #7FA890;">
+          <div style="background: #FFFFFF14; border-radius: 999px; padding: 4px 11px; display: flex; align-items: center; gap: 6px;">{{ marketFlag }} {{ marketName }}</div>
+          <div style="display: flex; align-items: center; gap: 5px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent, #10B981);"></div>Autosaved</div>
+        </div>
+      </div>
+
+      <!-- right pane -->
+      <div style="background: #F0FAF4; overflow-y: auto;">
+
+        <!-- STEP 1 -->
+        <sc-if value="{{ isOnb1 }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Onboarding 1 — Resume" style="min-height: 100%; display: flex; flex-direction: column; padding: 56px 64px 36px; max-width: 660px;">
+            <div style="font-size: 13px; font-weight: 600; color: var(--accent, #10B981); margin-bottom: 12px;">Step 1 of 3</div>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px;">
+              <div style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em;">Upload your resume.</div>
+              <div style="font-size: 14px; line-height: 1.55; color: #6B7280; text-wrap: pretty;">PDF only, under 10MB. We parse it, draft a cover letter, and have matches waiting by the time you finish setup.</div>
+            </div>
+            <sc-if value="{{ resumeIdle }}" hint-placeholder-val="{{ true }}">
+              <div onClick="{{ uploadResume }}" style="border: 2px dashed #10B98166; border-radius: 12px; background: #FFFFFF; padding: 44px 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer;" style-hover="border-color: var(--accent, #10B981); background: #E6F7EE;">
+                <div style="font-size: 15px; font-weight: 600;">Drop your PDF here, or <span style="color: var(--accent, #10B981); text-decoration: underline;">browse</span></div>
+                <div style="font-size: 12px; color: #6B7280;">Resume · PDF only · up to 10MB</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ resumeUploaded }}" hint-placeholder-val="{{ false }}">
+              <div style="border: 1px solid #D1FAE5; border-radius: 12px; background: #FFFFFF; padding: 18px 20px; display: flex; align-items: center; gap: 14px;">
+                <div style="width: 42px; height: 42px; border-radius: 10px; background: #FEE2E2; color: #B91C1C; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;">PDF</div>
+                <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+                  <div style="font-size: 14px; font-weight: 600;">alistair-rodrigues-resume.pdf</div>
+                  <div style="font-size: 12px; color: #6B7280;">312 KB · {{ resumeStatusLabel }}</div>
+                </div>
+                <div onClick="{{ removeResume }}" style="font-size: 13px; color: #6B7280; cursor: pointer;" style-hover="color: #EF4444;">Remove</div>
+              </div>
+            </sc-if>
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 20px;">
+              <div style="font-size: 13px; font-weight: 600;">Referral code <span style="font-weight: 400; color: #6B7280;">· optional</span></div>
+              <input name="referral" value="{{ fReferral }}" onChange="{{ setField }}" placeholder="e.g. JOHN1234" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+            </div>
+            <div style="flex: 1;"></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 32px;">
+              <div style="font-size: 12px; color: #6B7280;">Takes about 30 seconds · Step 1 of 3</div>
+              <div onClick="{{ continue1 }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 9px;" style-hover="filter: brightness(0.93);">Continue <span style="background: #FFFFFF2E; border-radius: 5px; padding: 1px 7px; font-size: 12px;">↵</span></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- STEP 2 -->
+        <sc-if value="{{ isOnb2 }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Onboarding 2 — About you" style="display: flex; flex-direction: column; gap: 28px; padding: 56px 64px 36px; max-width: 680px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: 13px; font-weight: 600; color: var(--accent, #10B981);">Step 2 of 3</div>
+              <div style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em;">About you.</div>
+              <div style="font-size: 14px; color: #6B7280;">This fills the boring parts of every application for you.</div>
+            </div>
+
+            <!-- A. Location -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+              <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #6B7280;">Location</div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-size: 13px; font-weight: 600;">Address line</div>
+                <input name="addrLine" value="{{ fAddrLine }}" onChange="{{ setField }}" placeholder="Start typing your address…" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="font-size: 13px; font-weight: 600;">{{ cityLabel }}</div>
+                  <input name="city" value="{{ fCity }}" onChange="{{ setField }}" placeholder="{{ cityLabel }}" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                  <sc-if value="{{ cityError }}" hint-placeholder-val="{{ false }}"><div style="font-size: 12px; color: #EF4444;">Required — we use this on every application.</div></sc-if>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="font-size: 13px; font-weight: 600;">{{ postalLabel }}</div>
+                  <input name="postal" value="{{ fPostal }}" onChange="{{ setField }}" placeholder="{{ postalPlaceholder }}" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="font-size: 13px; font-weight: 600;">{{ districtLabel }} <span style="font-weight: 400; color: #6B7280;">· auto-filled</span></div>
+                  <input name="district" value="{{ fDistrict }}" onChange="{{ setField }}" placeholder="{{ districtLabel }}" style="width: 100%; background: #F9FAFB; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="font-size: 13px; font-weight: 600;">{{ regionLabel }}</div>
+                  <select name="region" value="{{ fRegion }}" onChange="{{ setField }}" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 12px; font-size: 14px; color: #1A3C2E; outline: none;">
+                    <sc-for list="{{ regionOpts }}" as="ro" hint-placeholder-count="3"><option value="{{ ro }}">{{ ro }}</option></sc-for>
+                  </select>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-size: 13px; font-weight: 600;">Country <span style="font-weight: 400; color: #6B7280;">· locked to your market</span></div>
+                <div style="background: #F9FAFB; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #6B7280; display: flex; justify-content: space-between; align-items: center;">{{ countryName }} <span style="font-size: 12px;">🔒</span></div>
+              </div>
+            </div>
+
+            <!-- B. Contact -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+              <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #6B7280;">Contact</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="font-size: 13px; font-weight: 600;">Phone</div>
+                  <div style="display: flex; gap: 8px;">
+                    <div style="background: #F9FAFB; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 12px; font-size: 14px; color: #6B7280; flex-shrink: 0;">{{ phonePrefix }}</div>
+                    <input name="phone" value="{{ fPhone }}" onChange="{{ setField }}" placeholder="{{ phonePlaceholder }}" style="flex: 1; min-width: 0; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                  </div>
+                  <sc-if value="{{ phoneError }}" hint-placeholder-val="{{ false }}"><div style="font-size: 12px; color: #EF4444;">Required — most ATS forms ask for it.</div></sc-if>
+                </div>
+                <sc-if value="{{ isIndia }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="font-size: 13px; font-weight: 600;">Alternate phone <span style="font-weight: 400; color: #6B7280;">· optional</span></div>
+                    <input name="altPhone" value="{{ fAltPhone }}" onChange="{{ setField }}" placeholder="+91" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                  </div>
+                </sc-if>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-size: 13px; font-weight: 600;">LinkedIn URL</div>
+                <input name="linkedin" value="{{ fLinkedin }}" onChange="{{ setField }}" placeholder="linkedin.com/in/yourname" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+              </div>
+              <div style="font-size: 12px; color: #6B7280;">Phone and LinkedIn show up on most applications.</div>
+            </div>
+
+            <!-- C. Work eligibility -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+              <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #6B7280;">Work eligibility</div>
+              <sc-for list="{{ ynRows }}" as="row" hint-placeholder-count="2">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                  <div style="font-size: 14px; font-weight: 500;">{{ row.label }} <span style="font-weight: 400; color: #6B7280; font-size: 12px;">{{ row.note }}</span></div>
+                  <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                    <sc-for list="{{ row.opts }}" as="o" hint-placeholder-count="2">
+                      <div onClick="{{ o.select }}" style="font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 999px; cursor: pointer; background: {{ o.bg }}; color: {{ o.fg }}; border: 1px solid {{ o.bd }};">{{ o.label }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-size: 14px; font-weight: 500;">Notice period</div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <sc-for list="{{ noticeOpts }}" as="n" hint-placeholder-count="5">
+                    <div onClick="{{ n.select }}" style="font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 999px; cursor: pointer; background: {{ n.bg }}; color: {{ n.fg }}; border: 1px solid {{ n.bd }};">{{ n.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+              <sc-if value="{{ isIndia }}" hint-placeholder-val="{{ false }}">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="font-size: 13px; font-weight: 600;">Current CTC <span style="font-weight: 400; color: #6B7280;">· ₹ LPA</span></div>
+                    <input name="currentCtc" value="{{ fCurrentCtc }}" onChange="{{ setField }}" placeholder="e.g. 12" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="font-size: 13px; font-weight: 600;">Expected CTC <span style="font-weight: 400; color: #6B7280;">· ₹ LPA range</span></div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                      <input name="expectedCtcMin" value="{{ fExpectedCtcMin }}" onChange="{{ setField }}" placeholder="18" style="flex: 1; min-width: 0; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                      <div style="color: #9CA3AF;">–</div>
+                      <input name="expectedCtcMax" value="{{ fExpectedCtcMax }}" onChange="{{ setField }}" placeholder="24" style="flex: 1; min-width: 0; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+
+            <!-- D. Quick checklist -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+              <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #6B7280;">Quick checklist</div>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <sc-for list="{{ prefRows }}" as="p" hint-placeholder-count="5">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                    <div style="font-size: 14px;">{{ p.label }}</div>
+                    <div onClick="{{ p.toggle }}" style="width: 40px; height: 23px; border-radius: 999px; padding: 3px; cursor: pointer; display: flex; background: {{ p.track }}; justify-content: {{ p.justify }};">
+                      <div style="width: 17px; height: 17px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="height: 1px; background: #D1FAE5;"></div>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-size: 13px; font-weight: 600;">Diversity &amp; inclusion <span style="font-weight: 400; color: #6B7280;">· optional, never required</span></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <sc-for list="{{ diRows }}" as="d" hint-placeholder-count="3">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                      <div style="font-size: 13px; font-weight: 600;">{{ d.label }}</div>
+                      <select name="{{ d.name }}" value="{{ d.value }}" onChange="{{ setField }}" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 12px; font-size: 14px; color: #1A3C2E; outline: none;">
+                        <sc-for list="{{ d.options }}" as="op" hint-placeholder-count="3"><option value="{{ op }}">{{ op }}</option></sc-for>
+                      </select>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-size: 13px; font-weight: 600;">Additional info <span style="font-weight: 400; color: #6B7280;">· optional</span></div>
+                <textarea name="additional" value="{{ fAdditional }}" onChange="{{ setField }}" placeholder='e.g. "Notice period 15 days", "Willing to travel 50%"' rows="2" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none; resize: vertical;" style-focus="border-color: var(--accent, #10B981);"></textarea>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div onClick="{{ back1 }}" style="font-size: 14px; font-weight: 600; color: #6B7280; cursor: pointer; display: flex; align-items: center; gap: 8px;" style-hover="color: #1A3C2E;">← Back <span style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 5px; padding: 1px 7px; font-size: 12px;">⇧ Tab</span></div>
+              <div onClick="{{ continue2 }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 9px;" style-hover="filter: brightness(0.93);">Continue · Step 2 of 3 <span style="background: #FFFFFF2E; border-radius: 5px; padding: 1px 7px; font-size: 12px;">↵</span></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- STEP 3 -->
+        <sc-if value="{{ isOnb3 }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Onboarding 3 — Application setup" style="display: flex; flex-direction: column; gap: 28px; padding: 56px 64px 36px; max-width: 680px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="font-size: 13px; font-weight: 600; color: var(--accent, #10B981);">Step 3 of 3</div>
+              <div style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em;">Application setup.</div>
+              <div style="font-size: 14px; color: #6B7280;">How we apply on your behalf — you can change all of this in Settings.</div>
+            </div>
+
+            <!-- A. Password -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="font-size: 16px; font-weight: 700;">Set a password for sites that ask.</div>
+                <div style="font-size: 13px; color: #6B7280; line-height: 1.55; text-wrap: pretty;">Some applications (Workday, iCIMS, Oracle, Naukri) require you to create an account mid-flow. We use this to sign you up automatically.</div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 600;">Workday</div>
+                <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 600;">iCIMS</div>
+                <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 600;">Oracle</div>
+                <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 600;">Naukri</div>
+                <div style="border-radius: 999px; padding: 4px 8px; font-size: 12px; color: #6B7280;">+ more</div>
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <input name="password" value="{{ fPassword }}" onChange="{{ setField }}" placeholder="Application password" style="flex: 1; min-width: 0; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none; font-family: 'Geist Mono', monospace;" style-focus="border-color: var(--accent, #10B981);">
+                <div onClick="{{ genPass }}" style="border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 16px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; background: #FFFFFF;" style-hover="background: #F0FAF4;">Generate strong password</div>
+              </div>
+              <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+                <sc-for list="{{ ruleItems }}" as="r" hint-placeholder-count="5">
+                  <div style="font-size: 12px; display: flex; align-items: center; gap: 5px; color: {{ r.fg }};"><span style="font-weight: 700;">{{ r.mark }}</span> {{ r.label }}</div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ err3 }}" hint-placeholder-val="{{ false }}"><div style="font-size: 12px; color: #EF4444;">Your password needs to meet all five rules before we can finish.</div></sc-if>
+              <div style="font-size: 12px; color: #6B7280;">Encrypted before save. Your email is your username.</div>
+            </div>
+
+            <!-- B. How should we apply -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+              <div style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #6B7280;">How should we apply?</div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 14px; font-weight: 600;">Resume optimization</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                  <sc-for list="{{ resumeSeg }}" as="sg" hint-placeholder-count="3">
+                    <div onClick="{{ sg.select }}" style="border-radius: 10px; padding: 12px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; background: {{ sg.bg }}; border: 2px solid {{ sg.bd }};">
+                      <div style="font-size: 14px; font-weight: 700; color: {{ sg.fg }};">{{ sg.label }}</div>
+                      <div style="font-size: 12px; line-height: 1.45; color: {{ sg.sub }};">{{ sg.desc }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ resumeAggressive }}" hint-placeholder-val="{{ false }}"><div style="font-size: 12px; color: #B45309; background: #FEF3C7; border-radius: 8px; padding: 8px 12px;">We rephrase and reorder — we never invent experience.</div></sc-if>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 13px; color: #6B7280;">Auto-approve edits?</div>
+                  <div onClick="{{ toggleAutoResume }}" style="width: 40px; height: 23px; border-radius: 999px; padding: 3px; cursor: pointer; display: flex; background: {{ arTrack }}; justify-content: {{ arJustify }};"><div style="width: 17px; height: 17px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></div></div>
+                </div>
+              </div>
+              <div style="height: 1px; background: #D1FAE5;"></div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 14px; font-weight: 600;">Cover letter optimization</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                  <sc-for list="{{ coverSeg }}" as="sg" hint-placeholder-count="3">
+                    <div onClick="{{ sg.select }}" style="border-radius: 10px; padding: 12px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; background: {{ sg.bg }}; border: 2px solid {{ sg.bd }};">
+                      <div style="font-size: 14px; font-weight: 700; color: {{ sg.fg }};">{{ sg.label }}</div>
+                      <div style="font-size: 12px; line-height: 1.45; color: {{ sg.sub }};">{{ sg.desc }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 13px; color: #6B7280;">Auto-approve edits?</div>
+                  <div onClick="{{ toggleAutoCover }}" style="width: 40px; height: 23px; border-radius: 999px; padding: 3px; cursor: pointer; display: flex; background: {{ acTrack }}; justify-content: {{ acJustify }};"><div style="width: 17px; height: 17px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- C. Preferred roles -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+              <div style="font-size: 14px; font-weight: 600;">Which roles do you want to target?</div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                <sc-for list="{{ roleChips }}" as="rc" hint-placeholder-count="3">
+                  <div style="background: #1A3C2E; color: #FFFFFF; border-radius: 999px; padding: 6px 8px 6px 14px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 7px;">{{ rc.label }} <span onClick="{{ rc.remove }}" style="cursor: pointer; background: #FFFFFF26; border-radius: 50%; width: 17px; height: 17px; display: flex; align-items: center; justify-content: center; font-size: 11px;">✕</span></div>
+                </sc-for>
+                <input name="roleInput" value="{{ fRoleInput }}" onChange="{{ setField }}" onKeyDown="{{ roleKey }}" placeholder="Type a role and press ↵" style="flex: 1; min-width: 180px; background: #FFFFFF; border: 1px dashed #D1FAE5; border-radius: 999px; padding: 8px 14px; font-size: 13px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+              </div>
+            </div>
+
+            <!-- D. Recruiter message -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; flex-direction: column; gap: 3px;">
+                  <div style="font-size: 14px; font-weight: 600;">Add a short message to recruiters where supported.</div>
+                  <div style="font-size: 12px; color: #6B7280;">Supported on LinkedIn, Indeed, and Naukri.</div>
+                </div>
+                <div onClick="{{ toggleRecruiter }}" style="width: 40px; height: 23px; border-radius: 999px; padding: 3px; cursor: pointer; display: flex; flex-shrink: 0; background: {{ rmTrack }}; justify-content: {{ rmJustify }};"><div style="width: 17px; height: 17px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></div></div>
+              </div>
+              <sc-if value="{{ recruiterOn }}" hint-placeholder-val="{{ false }}">
+                <textarea name="recruiterMsg" value="{{ fRecruiterMsg }}" onChange="{{ setField }}" placeholder="Hi! I'm an experienced data analyst actively looking — happy to share more." rows="2" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none; resize: vertical;" style-focus="border-color: var(--accent, #10B981);"></textarea>
+              </sc-if>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div onClick="{{ back2 }}" style="font-size: 14px; font-weight: 600; color: #6B7280; cursor: pointer; display: flex; align-items: center; gap: 8px;" style-hover="color: #1A3C2E;">← Back <span style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 5px; padding: 1px 7px; font-size: 12px;">⇧ Tab</span></div>
+              <div onClick="{{ finish3 }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 9px;" style-hover="filter: brightness(0.93);">Finish setup → <span style="background: #FFFFFF2E; border-radius: 5px; padding: 1px 7px; font-size: 12px;">↵</span></div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ================= APP SHELL ================= -->
+  <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+    <div style="display: grid; grid-template-columns: 232px 1fr; height: 100vh; overflow: hidden;">
+      <!-- nav rail -->
+      <div style="background: #1A3C2E; color: #E7F5EC; padding: 22px 14px 16px; display: flex; flex-direction: column; gap: 3px; overflow-y: auto;">
+        <div style="display: flex; align-items: baseline; gap: 6px; padding: 0 10px 20px;">
+          <div style="font-size: 20px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.01em;">obisa</div>
+          <div style="width: 6px; height: 6px; border-radius: 2px; background: var(--accent, #10B981);"></div>
+        </div>
+        <sc-for list="{{ navItems }}" as="nv" hint-placeholder-count="6">
+          <div onClick="{{ nv.go }}" style="font-size: 14px; font-weight: 600; padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer; background: {{ nv.bg }}; color: {{ nv.fg }};" style-hover="filter: brightness(1.08);">
+            <div style="width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; background: {{ nv.dot }};"></div>{{ nv.label }}
+          </div>
+        </sc-for>
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #7FA890; padding: 18px 10px 6px;">Channels</div>
+        <sc-for list="{{ channels }}" as="ch" hint-placeholder-count="4">
+          <div onClick="{{ ch.go }}" style="font-size: 13px; padding: 7px 10px; border-radius: 8px; color: #BBD8C6; cursor: pointer; display: flex; align-items: center; gap: 10px;" style-hover="background: #FFFFFF14;">
+            <div style="width: 12px; height: 12px; border-radius: 50%; background: #FFFFFF22; flex-shrink: 0;"></div>{{ ch.label }}
+          </div>
+        </sc-for>
+        <div style="flex: 1; min-height: 18px;"></div>
+        <div style="font-size: 13px; padding: 7px 10px; color: #BBD8C6; cursor: pointer; border-radius: 8px;" style-hover="background: #FFFFFF14;">Help &amp; support</div>
+        <div style="font-size: 13px; padding: 7px 10px; color: #BBD8C6; cursor: pointer; border-radius: 8px; margin-bottom: 10px;" style-hover="background: #FFFFFF14;">Send feedback</div>
+        <div style="background: #FFFFFF12; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;"><div style="font-size: 12px; color: #BBD8C6;">Applications left</div><div style="font-size: 11px; color: #7FA890;">Free plan</div></div>
+          <div style="font-size: 14px; font-weight: 700; color: #FFFFFF;">{{ appsLeft }} / 25 free</div>
+          <div style="height: 4px; background: #FFFFFF22; border-radius: 999px; overflow: hidden;"><div style="height: 100%; background: var(--accent, #10B981); border-radius: 999px; width: {{ appsLeftPct }};"></div></div>
+          <div style="font-size: 12px; color: var(--accent, #10B981); font-weight: 600; cursor: pointer;">Upgrade or buy a pack →</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 9px; padding: 12px 6px 2px;">
+          <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--accent, #10B981); color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;">AR</div>
+          <div style="display: flex; flex-direction: column; gap: 0;">
+            <div style="font-size: 13px; font-weight: 600; color: #FFFFFF;">Alistair Rodrigues</div>
+            <div style="font-size: 11px; color: #7FA890;">alistairar7@gmail.com</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- content -->
+      <div style="background: #F0FAF4; overflow-y: auto; position: relative;">
+        <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ false }}"><div data-screen-label="Dashboard" style="padding: 24px 28px 40px; display: flex; flex-direction: column; gap: 18px; min-height: 100%;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <input name="search" value="{{ fSearch }}" onChange="{{ setField }}" placeholder="Search by title, company…" style="flex: 1; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+              <div onClick="{{ toggleMarket }}" style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 999px; padding: 8px 15px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;" style-hover="border-color: var(--accent, #10B981);">{{ marketChipLabel }} ⇄</div>
+            </div>
+            <div style="display: flex; gap: 7px; flex-wrap: wrap;">
+              <sc-for list="{{ filterChips }}" as="fc" hint-placeholder-count="9">
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 999px; padding: 6px 13px; font-size: 12px; font-weight: 500; color: #4B5563; cursor: pointer; display: flex; align-items: center; gap: 5px;" style-hover="border-color: var(--accent, #10B981); color: #1A3C2E;">{{ fc.label }} <span style="color: #9CA3AF; font-size: 10px;">▾</span></div>
+              </sc-for>
+            </div>
+            <div style="display: grid; grid-template-columns: 1.65fr 1fr; gap: 18px; align-items: start;">
+              <!-- matches -->
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 19px; font-weight: 700;">Top job matches</div>
+                  <div style="display: flex; gap: 8px;">
+                    <div onClick="{{ toggleQuickAddGo }}" style="background: #FFFFFF; border: 1px solid #D1FAE5; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 9px; cursor: pointer;" style-hover="background: #F0FAF4;">Add your own</div>
+                    <div onClick="{{ goBrowse }}" style="background: #FFFFFF; border: 1px solid #D1FAE5; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 9px; cursor: pointer;" style-hover="background: #F0FAF4;">Browse jobs</div>
+                    <sc-if value="{{ hasJobs }}" hint-placeholder-val="{{ true }}">
+                      <div onClick="{{ applyAll }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 8px 15px; border-radius: 9px; cursor: pointer;" style-hover="filter: brightness(0.93);">{{ applyAllLabel }}</div>
+                    </sc-if>
+                  </div>
+                </div>
+                <sc-if value="{{ hasJobs }}" hint-placeholder-val="{{ true }}">
+                  <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="3">
+                    <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 20px 22px; box-shadow: 0 1px 3px rgba(26,60,46,0.05); display: flex; flex-direction: column; gap: 12px;">
+                      <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="font-size: 13px; color: #6B7280;">{{ j.loc }} · {{ j.mode }} · {{ j.age }}</div>
+                        <div style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 4px 11px; border-radius: 999px;">{{ j.matchLabel }}</div>
+                      </div>
+                      <div style="display: flex; flex-direction: column; gap: 5px;">
+                        <div style="font-size: 18px; font-weight: 700; letter-spacing: -0.01em;">{{ j.title }}</div>
+                        <div style="font-size: 14px; color: {{ j.salaryColor }}; font-weight: 600;">{{ j.salaryText }} <span style="font-weight: 400; color: #6B7280; font-size: 12px;">{{ j.estText }} {{ j.sponsorNote }}</span></div>
+                      </div>
+                      <div style="display: flex; gap: 7px; flex-wrap: wrap;">
+                        <sc-for list="{{ j.chips }}" as="c" hint-placeholder-count="3">
+                          <div style="background: #F0FAF4; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 12px; padding: 3px 10px; border-radius: 999px;">{{ c }}</div>
+                        </sc-for>
+                        <div style="color: #6B7280; font-size: 12px; padding: 3px 2px;">{{ j.moreLabel }}</div>
+                      </div>
+                      <div style="height: 1px; background: #D1FAE5;"></div>
+                      <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px;">
+                        <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                          <div style="width: 32px; height: 32px; border-radius: 8px; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: {{ j.logoBg }}; color: {{ j.logoFg }}; border: 1px solid {{ j.logoBd }};">{{ j.logo }}</div>
+                          <div style="display: flex; flex-direction: column; gap: 0; min-width: 0;">
+                            <div style="font-size: 13px; font-weight: 600;">{{ j.co }}</div>
+                            <div style="font-size: 11px; color: #6B7280; font-family: 'Geist Mono', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ j.src }}</div>
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                          <div onClick="{{ j.view }}" style="font-size: 13px; font-weight: 500; color: #6B7280; padding: 8px 6px; cursor: pointer;" style-hover="color: #1A3C2E;">View details</div>
+                          <div onClick="{{ j.pass }}" style="border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; font-weight: 600; padding: 8px 15px; border-radius: 9px; cursor: pointer;" style-hover="background: #F0FAF4;">Pass</div>
+                          <div onClick="{{ j.apply }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 8px 19px; border-radius: 9px; cursor: pointer;" style-hover="filter: brightness(0.93);">Apply</div>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </sc-if>
+                <sc-if value="{{ noJobs }}" hint-placeholder-val="{{ false }}">
+                  <div style="background: #FFFFFF; border: 1px dashed #D1FAE5; border-radius: 14px; padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                    <div style="width: 52px; height: 52px; border-radius: 50%; background: #F0FAF4; border: 1px solid #D1FAE5; display: flex; align-items: center; justify-content: center;"><div style="width: 18px; height: 18px; border-radius: 5px; background: #D1FAE5;"></div></div>
+                    <div style="font-size: 15px; font-weight: 600;">No matches right now</div>
+                    <div style="font-size: 13px; color: #6B7280;">New matches land overnight — or add a job link yourself.</div>
+                    <div onClick="{{ goBrowse }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 9px; cursor: pointer; margin-top: 4px;" style-hover="filter: brightness(0.93);">Browse jobs</div>
+                  </div>
+                </sc-if>
+              </div>
+              <!-- tracker summary -->
+              <div style="display: flex; flex-direction: column; gap: 12px; position: sticky; top: 24px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 19px; font-weight: 700;">Tracker</div>
+                  <div onClick="{{ goTracker }}" style="font-size: 13px; font-weight: 600; color: var(--accent, #10B981); cursor: pointer;">Open tracker →</div>
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                    <sc-for list="{{ counters }}" as="ct" hint-placeholder-count="6">
+                      <div style="background: #F0FAF4; border-radius: 9px; padding: 10px 11px; display: flex; flex-direction: column; gap: 2px;">
+                        <div style="font-size: 19px; font-weight: 700; color: {{ ct.fg }};">{{ ct.val }}</div>
+                        <div style="font-size: 11px; color: #6B7280;">{{ ct.label }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div onClick="{{ approveAll }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 9px; border-radius: 9px; text-align: center; cursor: pointer;" style-hover="filter: brightness(0.93);">Approve all</div>
+                  <sc-if value="{{ hasMiniRows }}" hint-placeholder-val="{{ true }}">
+                    <div style="display: flex; flex-direction: column; gap: 11px;">
+                      <sc-for list="{{ miniRows }}" as="mr" hint-placeholder-count="4">
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                          <div style="display: flex; flex-direction: column; gap: 0; min-width: 0;">
+                            <div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ mr.co }}</div>
+                            <div style="font-size: 11px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ mr.role }} · {{ mr.date }}</div>
+                          </div>
+                          <div style="font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; flex-shrink: 0; background: {{ mr.sBg }}; color: {{ mr.sFg }};">{{ mr.status }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ noMiniRows }}" hint-placeholder-val="{{ false }}">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 0;">
+                      <div style="width: 36px; height: 36px; border-radius: 50%; background: #F0FAF4; border: 1px solid #D1FAE5;"></div>
+                      <div style="font-size: 13px; color: #6B7280;">Nothing tracked yet.</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+          </div></sc-if>
+        <sc-if value="{{ isBrowse }}" hint-placeholder-val="{{ false }}"><div data-screen-label="Browse Jobs" style="padding: 24px 28px 40px; display: flex; flex-direction: column; gap: 16px; min-height: 100%;">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <input name="search" value="{{ fSearch }}" onChange="{{ setField }}" placeholder="Search by title, company…" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+              <div style="display: flex; gap: 7px; flex-wrap: wrap;">
+                <sc-for list="{{ filterChips }}" as="fc" hint-placeholder-count="10">
+                  <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 999px; padding: 6px 13px; font-size: 12px; font-weight: 500; color: #4B5563; cursor: pointer; display: flex; align-items: center; gap: 5px;" style-hover="border-color: var(--accent, #10B981); color: #1A3C2E;">{{ fc.label }} <span style="color: #9CA3AF; font-size: 10px;">▾</span></div>
+                </sc-for>
+              </div>
+            </div>
+            <!-- quick add -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-size: 14px; font-weight: 600;">Workday, Greenhouse etc. — Add Your Own Link</div>
+                <div onClick="{{ toggleQuickAdd }}" style="font-size: 22px; cursor: pointer; opacity: 0.5;" style-hover="opacity: 1;">{{ quickAddOpen ? '−' : '+' }}</div>
+              </div>
+              <sc-if value="{{ quickAddOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; gap: 8px;">
+                  <input name="quickUrl" value="{{ fQuickUrl }}" onChange="{{ setField }}" placeholder="Paste the job link here…" style="flex: 1; min-width: 0; background: #F9FAFB; border: 1px solid #D1FAE5; border-radius: 9px; padding: 9px 12px; font-size: 13px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+                  <textarea name="quickJd" value="{{ fQuickJd }}" onChange="{{ setField }}" placeholder="Optional: paste the job description…" rows="1" style="flex: 1; min-width: 0; background: #F9FAFB; border: 1px solid #D1FAE5; border-radius: 9px; padding: 9px 12px; font-size: 13px; color: #1A3C2E; outline: none; resize: vertical;" style-focus="border-color: var(--accent, #10B981);"></textarea>
+                  <div onClick="{{ quickApply }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 9px 15px; border-radius: 9px; cursor: pointer; white-space: nowrap;" style-hover="filter: brightness(0.93);">Quick Apply</div>
+                </div>
+              </sc-if>
+            </div>
+            <!-- saved jobs chip -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 9px 16px; font-size: 13px; font-weight: 600;">Saved · 0</div>
+            </div>
+            <!-- jobs -->
+            <sc-if value="{{ hasJobs }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="3">
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 20px 22px; box-shadow: 0 1px 3px rgba(26,60,46,0.05); display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div style="font-size: 13px; color: #6B7280;">{{ j.loc }} · {{ j.mode }} · {{ j.age }}</div>
+                    <div style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 12px; font-weight: 600; padding: 4px 11px; border-radius: 999px;">{{ j.matchLabel }}</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <div style="font-size: 18px; font-weight: 700; letter-spacing: -0.01em;">{{ j.title }}</div>
+                    <div style="font-size: 14px; color: {{ j.salaryColor }}; font-weight: 600;">{{ j.salaryText }} <span style="font-weight: 400; color: #6B7280; font-size: 12px;">{{ j.estText }} {{ j.sponsorNote }}</span></div>
+                  </div>
+                  <div style="display: flex; gap: 7px; flex-wrap: wrap;">
+                    <sc-for list="{{ j.chips }}" as="c" hint-placeholder-count="3">
+                      <div style="background: #F0FAF4; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 12px; padding: 3px 10px; border-radius: 999px;">{{ c }}</div>
+                    </sc-for>
+                    <div style="color: #6B7280; font-size: 12px; padding: 3px 2px;">{{ j.moreLabel }}</div>
+                  </div>
+                  <div style="height: 1px; background: #D1FAE5;"></div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px;">
+                    <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                      <div style="width: 32px; height: 32px; border-radius: 8px; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: {{ j.logoBg }}; color: {{ j.logoFg }}; border: 1px solid {{ j.logoBd }};">{{ j.logo }}</div>
+                      <div style="display: flex; flex-direction: column; gap: 0; min-width: 0;">
+                        <div style="font-size: 13px; font-weight: 600;">{{ j.co }}</div>
+                        <div style="font-size: 11px; color: #6B7280; font-family: 'Geist Mono', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ j.src }}</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                      <div onClick="{{ j.view }}" style="font-size: 13px; font-weight: 500; color: #6B7280; padding: 8px 6px; cursor: pointer;" style-hover="color: #1A3C2E;">View details</div>
+                      <div onClick="{{ j.pass }}" style="border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 13px; font-weight: 600; padding: 8px 15px; border-radius: 9px; cursor: pointer;" style-hover="background: #F0FAF4;">Pass</div>
+                      <div onClick="{{ j.apply }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 8px 19px; border-radius: 9px; cursor: pointer;" style-hover="filter: brightness(0.93);">Apply</div>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ noJobs }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #FFFFFF; border: 1px dashed #D1FAE5; border-radius: 14px; padding: 64px 32px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: #F0FAF4; border: 1px solid #D1FAE5; display: flex; align-items: center; justify-content: center;"><div style="width: 20px; height: 20px; border-radius: 6px; background: #D1FAE5;"></div></div>
+                <div style="font-size: 16px; font-weight: 600;">No jobs in your search</div>
+                <div style="font-size: 13px; color: #6B7280; max-width: 340px;">Try broadening your filters, or add a job link from any ATS platform yourself.</div>
+              </div>
+            </sc-if>
+          </div></sc-if>
+        <sc-if value="{{ isTracker }}" hint-placeholder-val="{{ false }}"><div data-screen-label="Tracker" style="padding: 24px 28px 40px; display: flex; flex-direction: column; gap: 16px; min-height: 100%;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <input name="trackerSearch" value="{{ fTrackerSearch }}" onChange="{{ setField }}" placeholder="Search companies or roles…" style="flex: 1; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 10px 14px; font-size: 14px; color: #1A3C2E; outline: none;" style-focus="border-color: var(--accent, #10B981);">
+              <div onClick="{{ toggleMarket }}" style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 999px; padding: 8px 15px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;" style-hover="border-color: var(--accent, #10B981);">{{ marketChipLabel }} ⇄</div>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+              <sc-for list="{{ trackerTabs }}" as="tt" hint-placeholder-count="7">
+                <div onClick="{{ tt.select }}" style="font-size: 13px; font-weight: 600; padding: 7px 15px; border-radius: 999px; cursor: pointer; background: {{ tt.bg }}; color: {{ tt.fg }}; border: 1px solid {{ tt.bd }}; display: flex; align-items: center; gap: 8px;" style-hover="border-color: var(--accent, #10B981);">{{ tt.label }} <span style="background: {{ tt.cBg }}; color: {{ tt.cFg }}; border-radius: 5px; padding: 0px 6px; font-size: 11px; font-weight: 700;">{{ tt.count }}</span></div>
+              </sc-for>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <div onClick="{{ importCsv }}" style="background: #FFFFFF; border: 1px solid #D1FAE5; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 9px; cursor: pointer;" style-hover="background: #F0FAF4;">📥 Import CSV</div>
+              <div onClick="{{ addApplication }}" style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 8px 15px; border-radius: 9px; cursor: pointer;" style-hover="filter: brightness(0.93);">+ Add application</div>
+            </div>
+            <sc-if value="{{ hasTrackRows }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ trackRows }}" as="tr" hint-placeholder-count="6">
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 36px 1.5fr 1.2fr 100px auto; gap: 14px; align-items: center;">
+                  <div style="width: 36px; height: 36px; border-radius: 9px; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: {{ tr.logoBg }}; color: {{ tr.logoFg }}; border: 1px solid {{ tr.logoBd }};">{{ tr.logo }}</div>
+                  <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+                    <div style="font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ tr.co }}</div>
+                    <div style="font-size: 11px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ tr.role }} · {{ tr.date }}</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; font-size: 12px; color: #6B7280;">
+                    <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ tr.status }}</div>
+                  </div>
+                  <div style="font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 999px; flex-shrink: 0; background: {{ tr.sBg }}; color: {{ tr.sFg }}; text-align: center;">{{ tr.status }}</div>
+                  <div style="font-size: 12px; color: #6B7280;">{{ tr.date }}</div>
+                </div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ noTrackRows }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #FFFFFF; border: 1px dashed #D1FAE5; border-radius: 14px; padding: 64px 32px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: #F0FAF4; border: 1px solid #D1FAE5; display: flex; align-items: center; justify-content: center;"><div style="width: 20px; height: 20px; border-radius: 6px; background: #D1FAE5;"></div></div>
+                <div style="font-size: 16px; font-weight: 600;">No applications yet</div>
+                <div style="font-size: 13px; color: #6B7280; max-width: 340px;">Start applying from Browse Jobs — you can track everything here.</div>
+              </div>
+            </sc-if>
+          </div></sc-if>
+        <sc-if value="{{ isInbox }}" hint-placeholder-val="{{ false }}"><div data-screen-label="Inbox" style="padding: 24px 28px 40px; display: flex; flex-direction: column; gap: 12px; min-height: 100%; height: 100%; overflow: hidden;">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <sc-for list="{{ inboxTabs }}" as="it" hint-placeholder-count="7">
+                <div onClick="{{ it.select }}" style="font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 999px; cursor: pointer; background: {{ it.bg }}; color: {{ it.fg }}; border: 1px solid {{ it.bd }}; display: flex; align-items: center; gap: 8px;" style-hover="border-color: var(--accent, #10B981);">{{ it.label }} <span style="background: {{ it.cBg }}; color: {{ it.cFg }}; border-radius: 5px; padding: 0px 6px; font-size: 11px; font-weight: 700;">{{ it.count }}</span></div>
+              </sc-for>
+            </div>
+            <div style="display: grid; grid-template-columns: 280px 1fr; gap: 16px; flex: 1; min-height: 0; overflow: hidden;">
+              <!-- left: msg list -->
+              <div style="display: flex; flex-direction: column; gap: 0; border: 1px solid #D1FAE5; border-radius: 12px; overflow: hidden; background: #FFFFFF;">
+                <sc-if value="{{ hasMsgs }}" hint-placeholder-val="{{ true }}">
+                  <sc-for list="{{ msgRows }}" as="mr" hint-placeholder-count="6">
+                    <div onClick="{{ mr.select }}" style="padding: 14px; border-bottom: 1px solid #D1FAE5; cursor: pointer; background: {{ mr.rowBg }}; border-left: 3px solid {{ mr.rowBd }}; padding-left: 11px; display: flex; flex-direction: column; gap: 6px; transition: background 0.1s;" style-hover="background: #F9FAFB;">
+                      <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                        <div style="font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">{{ mr.from }}</div>
+                        <div style="font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; background: {{ mr.tagBg }}; color: {{ mr.tagFg }};">{{ mr.tag }}</div>
+                      </div>
+                      <div style="font-size: 12px; color: #6B7280; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ mr.subj }}</div>
+                      <div style="font-size: 11px; color: #9CA3AF;">{{ mr.date }}</div>
+                    </div>
+                  </sc-for>
+                </sc-if>
+                <sc-if value="{{ noMsgs }}" hint-placeholder-val="{{ false }}">
+                  <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 18px; text-align: center;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #F0FAF4; border: 1px solid #D1FAE5; margin-bottom: 10px;"></div>
+                    <div style="font-size: 13px; color: #6B7280;">No messages</div>
+                  </div>
+                </sc-if>
+              </div>
+              <!-- right: detail -->
+              <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: 0; border: 1px solid #D1FAE5; border-radius: 12px; overflow-y: auto; background: #FFFFFF; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                    <div style="display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 0;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="font-size: 14px; font-weight: 700;">{{ selSubj }}</div>
+                        <div style="font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 4px; flex-shrink: 0; background: {{ selTagBg }}; color: {{ selTagFg }};">{{ selTagLabel }}</div>
+                      </div>
+                      <div style="font-size: 13px; color: #4B5563;">From: <span style="color: #1A3C2E; font-weight: 600;">{{ selFrom }}</span> <span style="color: #9CA3AF; font-family: 'Geist Mono', monospace; font-size: 12px;">{{ selAddr }}</span></div>
+                      <div style="font-size: 12px; color: #9CA3AF;">{{ selDate }}</div>
+                    </div>
+                  </div>
+                  <div style="height: 1px; background: #D1FAE5; margin-bottom: 16px;"></div>
+                  <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.6; color: #4B5563;">
+                    <sc-for list="{{ selBody }}" as="para" hint-placeholder-count="5">
+                      <div>{{ para }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ noSel }}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px;">
+                  <div style="width: 48px; height: 48px; border-radius: 50%; background: #F0FAF4; border: 1px solid #D1FAE5; margin-bottom: 12px;"></div>
+                  <div style="font-size: 14px; font-weight: 600;">No message selected</div>
+                  <div style="font-size: 13px; color: #6B7280; max-width: 280px; text-align: center; margin-top: 6px;">Messages sent to your inbox address will appear here.</div>
+                </div>
+              </sc-if>
+            </div>
+          </div></sc-if>
+        <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}"><div data-screen-label="Profile" style="padding: 24px 28px 40px; display: flex; flex-direction: column; gap: 20px; min-height: 100%;">
+            <!-- summary bar -->
+            <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 20px; display: flex; align-items: flex-start; gap: 18px;">
+              <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent, #10B981); color: #FFFFFF; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">AR</div>
+              <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; align-items: baseline; gap: 12px;">
+                  <div style="font-size: 22px; font-weight: 700;">Alistair Rodrigues</div>
+                  <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 500; color: #6B7280; cursor: pointer;">Default profile ▾</div>
+                </div>
+                <input name="bio" value="{{ fBio }}" onChange="{{ setField }}" placeholder="Add a 1–2 line summary about yourself…" style="background: transparent; border: none; font-size: 14px; color: #4B5563; outline: none; padding: 0; font-family: 'Geist', sans-serif; max-width: 100%; text-wrap: pretty;" style-focus="outline: 1px solid var(--accent, #10B981); padding: 2px; border-radius: 3px;">
+                <div style="font-size: 14px; color: #6B7280;">📍 Pimpri-Chinchwad, Maharashtra, India</div>
+                <div style="display: flex; gap: 14px; font-size: 13px; color: #6B7280;">
+                  <div>alistairar7@gmail.com</div>
+                  <div>+91 98765 43210</div>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; align-items: flex-end;">
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; background: #D1FAE5; color: #047857; padding: 6px 11px; border-radius: 999px;">
+                  <div style="width: 7px; height: 7px; border-radius: 50%; background: #10B981;"></div>80% Complete
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; color: #6B7280;" style-hover="color: #1A3C2E;">Edit</div>
+              </div>
+            </div>
+
+            <!-- sections -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <!-- resume -->
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="font-size: 16px; font-weight: 700;">Resume</div>
+                    <div style="background: #EF4444; color: #FFFFFF; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">PDF</div>
+                  </div>
+                  <div style="display: flex; gap: 8px; font-size: 13px; font-weight: 600;">
+                    <div style="cursor: pointer; color: var(--accent, #10B981);">Preview</div>
+                    <div style="cursor: pointer; color: var(--accent, #10B981);">Upload</div>
+                    <div style="cursor: pointer; color: var(--accent, #10B981);">Download</div>
+                  </div>
+                </div>
+                <div style="font-size: 13px; color: #6B7280;">What we submit on every application.</div>
+              </div>
+
+              <!-- experience -->
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 16px; font-weight: 700;">Experience · 3 roles</div>
+                  <div style="font-size: 13px; font-weight: 600; cursor: pointer; color: var(--accent, #10B981);">Edit</div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                  <div style="display: flex; gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: #F0FAF4; border: 1px solid #D1FAE5; flex-shrink: 0;"></div>
+                    <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+                      <div style="font-size: 14px; font-weight: 700;">Senior Data Analyst</div>
+                      <div style="font-size: 13px; color: #6B7280;">Meridian Labs</div>
+                      <div style="font-size: 12px; color: #9CA3AF;">Jan 2022 – Jan 2024 · 2 yrs</div>
+                      <div style="font-size: 13px; color: #4B5563; margin-top: 6px; line-height: 1.5;">• Owned reporting for the payments vertical with SQL and Python • Built the company's primary Tableau dashboard suite • Presented insights to leadership weekly</div>
+                      <div style="font-size: 12px; color: var(--accent, #10B981); cursor: pointer; margin-top: 4px;">+ 2 more bullets</div>
+                    </div>
+                  </div>
+                  <div style="display: flex; gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: #F0FAF4; border: 1px solid #D1FAE5; flex-shrink: 0;"></div>
+                    <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+                      <div style="font-size: 14px; font-weight: 700;">Data Analyst</div>
+                      <div style="font-size: 13px; color: #6B7280;">Suryadeep Finance</div>
+                      <div style="font-size: 12px; color: #9CA3AF;">Jun 2020 – Dec 2021 · 1 yr 7 mos</div>
+                      <div style="font-size: 13px; color: #4B5563; margin-top: 6px; line-height: 1.5;">• Defined metrics for collections and risk dashboards • Owned the monthly regulatory reporting cycle</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background: #F9FAFB; border: 1px dashed #D1FAE5; border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; color: var(--accent, #10B981); font-size: 13px; font-weight: 600;">+ Add role</div>
+              </div>
+
+              <!-- skills -->
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 16px; font-weight: 700;">Skills · 8 across 2 categories</div>
+                  <div style="font-size: 13px; font-weight: 600; cursor: pointer; color: var(--accent, #10B981);">Edit</div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 12px; font-weight: 600; color: #6B7280;">Data & SQL</div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                      <sc-for list="{{ ['Python', 'SQL', 'R', 'Pandas'] }}" as="sk" hint-placeholder-count="4">
+                        <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 999px; padding: 5px 12px; font-size: 13px; color: #1A3C2E;">{{ sk }}</div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 12px; font-weight: 600; color: #6B7280;">Visualization & BI</div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                      <sc-for list="{{ ['Tableau', 'Looker', 'Power BI', 'matplotlib'] }}" as="sk" hint-placeholder-count="4">
+                        <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 999px; padding: 5px 12px; font-size: 13px; color: #1A3C2E;">{{ sk }}</div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- application defaults -->
+              <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="font-size: 16px; font-weight: 700;">Application defaults</div>
+                  <div style="font-size: 13px; font-weight: 600; cursor: pointer; color: var(--accent, #10B981);">Edit</div>
+                </div>
+                <div style="font-size: 12px; color: #6B7280; line-height: 1.6;">What we auto-fill on every ATS form.</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 13px;">
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="font-weight: 600; color: #6B7280;">Work authorization</div>
+                    <div style="color: #4B5563;">Authorized to work</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="font-weight: 600; color: #6B7280;">Notice period</div>
+                    <div style="color: #4B5563;">30 days</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="font-weight: 600; color: #6B7280;">Current CTC</div>
+                    <div style="color: #4B5563;">₹16 LPA</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="font-weight: 600; color: #6B7280;">Expected CTC</div>
+                    <div style="color: #4B5563;">₹18–24 LPA</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="font-weight: 600; color: #6B7280;">Can relocate</div>
+                    <div style="color: #4B5563;">No</div>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="font-weight: 600; color: #6B7280;">In-person</div>
+                    <div style="color: #4B5563;">Yes</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div></sc-if>
+        <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}"><div data-screen-label="Settings" style="padding: 24px 28px 40px; display: flex; flex-direction: column; gap: 16px; min-height: 100%;">
+            <div style="display: flex; gap: 8px; border-bottom: 1px solid #D1FAE5; padding-bottom: 12px;">
+              <sc-for list="{{ settingsTabs }}" as="st" hint-placeholder-count="6">
+                <div onClick="{{ st.select }}" style="font-size: 14px; font-weight: {{ st.wt }}; padding: 8px 12px; border-bottom: 3px solid transparent; cursor: pointer; color: {{ st.fg }}; border-bottom-color: {{ st.bg === '#FFFFFF' ? 'var(--accent, #10B981)' : 'transparent' }};" style-hover="color: #1A3C2E;">{{ st.label }}</div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ isTabApply }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; gap: 20px; max-width: 720px;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="font-size: 16px; font-weight: 700;">Resume optimization</div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                    <sc-for list="{{ resumeSeg }}" as="rs" hint-placeholder-count="3">
+                      <div onClick="{{ rs.select }}" style="border: 2px solid {{ rs.bd }}; border-radius: 12px; padding: 14px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; background: {{ rs.bg }};">
+                        <div style="font-size: 14px; font-weight: 700; color: {{ rs.fg }};">{{ rs.label }}</div>
+                        <div style="font-size: 12px; line-height: 1.45; color: {{ rs.sub }};">{{ rs.desc }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ resumeAggressive }}" hint-placeholder-val="{{ false }}">
+                    <div style="background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 10px; padding: 10px 14px; font-size: 12px; color: #B45309;">We rephrase and reorder — we never invent experience.</div>
+                  </sc-if>
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px;">
+                    <div style="font-size: 13px; color: #6B7280;">Auto-approve edits?</div>
+                    <div onClick="{{ toggleAutoResume }}" style="width: 40px; height: 23px; border-radius: 999px; padding: 3px; cursor: pointer; display: flex; background: {{ arTrack }}; justify-content: {{ arJustify }};"><div style="width: 17px; height: 17px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></div></div>
+                  </div>
+                </div>
+                <div style="height: 1px; background: #D1FAE5;"></div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="font-size: 16px; font-weight: 700;">Cover letter optimization</div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                    <sc-for list="{{ coverSeg }}" as="cs" hint-placeholder-count="3">
+                      <div onClick="{{ cs.select }}" style="border: 2px solid {{ cs.bd }}; border-radius: 12px; padding: 14px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; background: {{ cs.bg }};">
+                        <div style="font-size: 14px; font-weight: 700; color: {{ cs.fg }};">{{ cs.label }}</div>
+                        <div style="font-size: 12px; line-height: 1.45; color: {{ cs.sub }};">{{ cs.desc }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px;">
+                    <div style="font-size: 13px; color: #6B7280;">Auto-approve edits?</div>
+                    <div onClick="{{ toggleAutoCover }}" style="width: 40px; height: 23px; border-radius: 999px; padding: 3px; cursor: pointer; display: flex; background: {{ acTrack }}; justify-content: {{ acJustify }};"><div style="width: 17px; height: 17px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></div></div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isTabPassword }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width: 520px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="font-size: 14px; font-weight: 600;">Workday password</div>
+                  <div style="font-size: 13px; color: #6B7280; line-height: 1.55;">This password is used to auto-fill Workday, iCIMS, and similar ATS logins during the application flow.</div>
+                </div>
+                <input name="password" value="{{ fPassword }}" onChange="{{ setField }}" placeholder="••••••••••••" style="width: 100%; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #1A3C2E; outline: none; font-family: 'Geist Mono', monospace;" style-focus="border-color: var(--accent, #10B981);">
+                <div style="font-size: 13px; color: #6B7280;">Encrypted before save. Never shared with employers.</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isTabBilling }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width: 520px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div style="font-size: 14px; font-weight: 700;">Free plan</div>
+                    <div style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px;">ACTIVE</div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #D1FAE5;">
+                    <div style="font-size: 13px; color: #6B7280;">Applications per month</div>
+                    <div style="font-size: 14px; font-weight: 600;">25</div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 13px; color: #6B7280;">Price</div>
+                    <div style="font-size: 14px; font-weight: 600;">Free forever</div>
+                  </div>
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+                  <div style="font-size: 14px; font-weight: 700;">Ready for more?</div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div style="border: 1px solid #D1FAE5; border-radius: 10px; padding: 12px; text-align: center;">
+                      <div style="font-size: 13px; font-weight: 600;">Buy 50 pack</div>
+                      <div style="font-size: 14px; font-weight: 700; color: var(--accent, #10B981); margin-top: 4px;">₹999 / £29</div>
+                    </div>
+                    <div style="border: 1px solid #D1FAE5; border-radius: 10px; padding: 12px; text-align: center;">
+                      <div style="font-size: 13px; font-weight: 600;">Pro plan</div>
+                      <div style="font-size: 14px; font-weight: 700; color: var(--accent, #10B981); margin-top: 4px;">₹4,999 / £149</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isTabReferrals }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width: 520px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+                  <div style="font-size: 14px; font-weight: 700;">Your referral link</div>
+                  <div style="background: #F9FAFB; border: 1px solid #D1FAE5; border-radius: 10px; padding: 11px 14px; font-family: 'Geist Mono', monospace; font-size: 12px; color: #4B5563; word-break: break-all;">obisa.app/invite/alistair-rodrigues-7429</div>
+                  <div style="font-size: 12px; color: #6B7280;">Share this with friends — they get 50 free applications on signup. You both get 10 bonus applications when they apply.</div>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isTabEmail }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width: 520px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+                  <div style="font-size: 14px; font-weight: 700;">Connected inboxes</div>
+                  <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #D1FAE5;">
+                    <div style="font-size: 13px;">alistairar7@gmail.com</div>
+                    <div style="background: #D1FAE5; color: #047857; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px;">CONNECTED</div>
+                  </div>
+                  <div style="font-size: 12px; color: #6B7280;">We forward OTP codes to this address. obisa never sends you email unless you set up an automation.</div>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isTabAccount }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width: 520px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+                  <div style="font-size: 14px; font-weight: 700;">Account</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+                    <div style="font-size: 13px;">Email</div>
+                    <div style="font-size: 13px; color: #4B5563; font-weight: 600;">alistairar7@gmail.com</div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-top: 1px solid #D1FAE5; border-bottom: 1px solid #D1FAE5;">
+                    <div style="font-size: 13px;">Account type</div>
+                    <div style="font-size: 13px; color: #4B5563; font-weight: 600;">Free</div>
+                  </div>
+                  <div style="font-size: 12px; color: #6B7280; margin-top: 4px;">Created 14 days ago. Not tracking identifiable information.</div>
+                </div>
+                <div style="background: #FEE2E2; border: 1px solid #FECACA; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+                  <div style="font-size: 13px; font-weight: 600; color: #B91C1C;">Delete account</div>
+                  <div style="font-size: 12px; color: #991B1B; line-height: 1.5;">Permanently delete all your data, applications, and settings. This cannot be undone.</div>
+                  <div style="background: #FFFFFF; color: #B91C1C; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer;" style-hover="background: #FEE2E2;">Delete my account</div>
+                </div>
+              </div>
+            </sc-if>
+          </div></sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- job detail panel -->
+  <sc-if value="{{ hasDetail }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; background: #00000033; z-index: 100; display: flex; align-items: flex-end;">
+      <div onClick="{{ closeDetail }}" style="position: absolute; inset: 0;"></div>
+      <div style="position: relative; background: #FFFFFF; border-top: 1px solid #D1FAE5; border-radius: 20px 20px 0 0; width: 100%; max-height: 80vh; overflow-y: auto; display: flex; flex-direction: column;">
+        <div style="padding: 24px; border-bottom: 1px solid #D1FAE5; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: #FFFFFF; z-index: 10;">
+          <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: {{ dLogoBg }}; color: {{ dLogoFg }}; border: 1px solid {{ dLogoBd }};">{{ dLogo }}</div>
+            <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+              <div style="font-size: 15px; font-weight: 700;">{{ dCo }}</div>
+              <div style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ dSrc }}</div>
+            </div>
+          </div>
+          <div onClick="{{ closeDetail }}" style="font-size: 24px; cursor: pointer; color: #9CA3AF; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" style-hover="color: #1A3C2E;">✕</div>
+        </div>
+        <div style="padding: 28px; display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: baseline; gap: 12px;">
+              <div style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">{{ dTitle }}</div>
+              <div style="background: var(--accent, #10B981); color: #FFFFFF; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px;">{{ dMatch }}</div>
+            </div>
+            <div style="display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: #6B7280;">
+              <div style="display: flex; align-items: center; gap: 4px;"><span>📍</span>{{ dLoc }}</div>
+              <div style="display: flex; align-items: center; gap: 4px;"><span>🏢</span>{{ dMode }}</div>
+              <div style="display: flex; align-items: center; gap: 4px;"><span>🕐</span>{{ dAge }}</div>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-size: 15px; font-weight: 700; color: {{ dSalaryColor }};">{{ dSalary }}</div>
+            <sc-if value="{{ dHasEst }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size: 13px; color: #6B7280;">{{ dEst }}</div>
+            </sc-if>
+            <sc-if value="{{ dSponsors }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size: 13px; font-weight: 600; color: var(--accent, #10B981);">· Sponsors visa</div>
+            </sc-if>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 12px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.08em;">Skills</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <sc-for list="{{ dChips }}" as="ch" hint-placeholder-count="6">
+                <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 999px; padding: 4px 12px; font-size: 12px; color: #1A3C2E;">{{ ch }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 12px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.08em;">About this role</div>
+            <div style="font-size: 14px; line-height: 1.65; color: #4B5563;">{{ dAbout }}</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 12px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.08em;">What we're looking for</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <sc-for list="{{ dReqs }}" as="req" hint-placeholder-count="4">
+                <div style="font-size: 14px; line-height: 1.5; color: #4B5563; display: flex; gap: 10px;"><span style="flex-shrink: 0;">•</span><span>{{ req }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; sticky; bottom: 0; padding-top: 18px; border-top: 1px solid #D1FAE5; background: #FFFFFF;">
+            <div onClick="{{ dPass }}" style="flex: 1; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 14px; font-weight: 600; padding: 12px 18px; border-radius: 10px; text-align: center; cursor: pointer;" style-hover="background: #F0FAF4;">Pass</div>
+            <div onClick="{{ dApply }}" style="flex: 1; background: var(--accent, #10B981); color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 12px 18px; border-radius: 10px; text-align: center; cursor: pointer;" style-hover="filter: brightness(0.93);">Apply now</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- WhatsApp modal -->
+  <sc-if value="{{ whatsappOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; background: #00000033; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px;">
+      <div onClick="{{ closeWhatsApp }}" style="position: absolute; inset: 0;"></div>
+      <div style="position: relative; background: #FFFFFF; border: 1px solid #D1FAE5; border-radius: 18px; padding: 32px; max-width: 420px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="font-size: 20px; font-weight: 700;">Apply over WhatsApp</div>
+          <div onClick="{{ closeWhatsApp }}" style="font-size: 22px; cursor: pointer; color: #9CA3AF;" style-hover="color: #1A3C2E;">✕</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <div style="flex-shrink: 0; margin-top: 3px;">📱</div>
+            <div style="font-size: 14px; color: #4B5563; line-height: 1.6;">Daily matches delivered to your chat</div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <div style="flex-shrink: 0; margin-top: 3px;">✅</div>
+            <div style="font-size: 14px; color: #4B5563; line-height: 1.6;">Reply yes to apply — we handle the rest</div>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start;">
+            <div style="flex-shrink: 0; margin-top: 3px;">📲</div>
+            <div style="font-size: 14px; color: #4B5563; line-height: 1.6;">Works on any device with WhatsApp installed</div>
+          </div>
+        </div>
+        <div style="background: #F0FAF4; border: 1px solid #D1FAE5; border-radius: 12px; padding: 14px; text-align: center;">
+          <div style="font-size: 12px; color: #6B7280; margin-bottom: 6px;">Contact number</div>
+          <div style="font-size: 15px; font-weight: 700; font-family: 'Geist Mono', monospace;">+91 XXXXX 88888</div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <div onClick="{{ closeWhatsApp }}" style="flex: 1; border: 1px solid #D1FAE5; color: #1A3C2E; font-size: 14px; font-weight: 600; padding: 12px 18px; border-radius: 10px; text-align: center; cursor: pointer;" style-hover="background: #F0FAF4;">Close</div>
+          <div onClick="{{ waGo }}" style="flex: 1; background: var(--accent, #10B981); color: #FFFFFF; font-size: 14px; font-weight: 600; padding: 12px 18px; border-radius: 10px; text-align: center; cursor: pointer;" style-hover="filter: brightness(0.93);">Open WhatsApp</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- toast -->
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); background: #1A3C2E; color: #FFFFFF; font-size: 14px; font-weight: 500; padding: 12px 22px; border-radius: 999px; box-shadow: 0 6px 24px rgba(26,60,46,0.35); z-index: 200; display: flex; align-items: center; gap: 9px;">
+      <div style="width: 7px; height: 7px; border-radius: 50%; background: var(--accent, #10B981);"></div>{{ toastMsg }}
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#10B981&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;market&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;india&quot;, &quot;options&quot;: [&quot;india&quot;, &quot;uk&quot;], &quot;tsType&quot;: &quot;'india' | 'uk'&quot;}, &quot;dataState&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;populated&quot;, &quot;options&quot;: [&quot;populated&quot;, &quot;empty&quot;], &quot;tsType&quot;: &quot;'populated' | 'empty'&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'landing', marketChoice: null, resumeStatus: 'idle',
+    f: { referral: '', addrLine: '', city: '', postal: '', district: '', region: '', phone: '', altPhone: '', linkedin: '',
+         currentCtc: '', expectedCtcMin: '', expectedCtcMax: '', additional: '', gender: '', category: '', disability: '', orientation: '',
+         password: '', roleInput: '', recruiterMsg: '', search: '', trackerSearch: '', quickUrl: '', quickJd: '', bio: '' },
+    notice: '', yn: { relocate: null, citizen: null, rtw: null, sponsor: null },
+    prefs: { inperson: true, relocate: false, immediate: true, transport: true, accommodations: false },
+    resumeOpt: 'honest', coverOpt: 'honest', autoResume: true, autoCover: false, recruiterOn: false,
+    roles: ['Data Analyst', 'BI Analyst', 'Data Scientist'],
+    trackerTab: 'All', inboxTab: 'All', selectedMsgId: 'm1', settingsTab: 'Apply Settings',
+    whatsappOpen: false, detailJobId: null, quickAddOpen: false,
+    appliedIds: [], passedIds: [], err2: false, err3: false, toast: null
+  };
+
+  JOBS = [
+    { id: 'j1', m: 'in', title: 'Senior Data Analyst', co: 'Meridian Labs', logo: 'ML', dark: true, loc: 'Bengaluru, India', mode: 'Hybrid', age: '2d ago', salary: '₹18–24 LPA', est: null, match: 74, chips: ['sql', 'excel', 'python', 'tableau'], more: 12, src: 'boards.greenhouse.io', sponsors: false,
+      about: 'Own reporting and deep-dive analysis for the payments vertical. You will partner with product and finance to turn raw event data into decisions, and build the dashboards the whole company runs on.',
+      reqs: ['4+ years in analytics, ideally B2C or fintech', 'Expert SQL; comfortable with Python for analysis', 'Experience with Tableau or similar BI tooling', 'Strong written communication — you will present to leadership'] },
+    { id: 'j2', m: 'in', title: 'Analytics Engineer', co: 'Kavarna', logo: 'KV', dark: false, loc: 'Pune, India', mode: 'Hybrid', age: '3d ago', salary: null, est: null, match: 91, chips: ['dbt', 'sql', 'airflow', 'python'], more: 8, src: 'kavarna.naukri.com', sponsors: false,
+      about: 'Build and maintain the transformation layer between our warehouse and every dashboard in the company. Small data team, large surface area, lots of ownership.',
+      reqs: ['2+ years with dbt or similar transformation tooling', 'Deep SQL and data modeling instincts', 'Experience operating Airflow or Dagster in production', 'Bonus: exposure to event pipelines (Kafka, Segment)'] },
+    { id: 'j3', m: 'in', title: 'BI Analyst', co: 'Suryadeep Finance', logo: 'SF', dark: false, loc: 'Mumbai, India', mode: 'On-site', age: '5d ago', salary: '₹12–16 LPA', est: null, match: 66, chips: ['power bi', 'dax', 'sql'], more: 5, src: 'suryadeep.wd3.myworkdayjobs.com', sponsors: false,
+      about: 'Join the lending analytics team to build Power BI dashboards for credit risk and collections. You will work directly with the head of risk.',
+      reqs: ['2+ years with Power BI and DAX', 'Solid SQL', 'NBFC or banking domain knowledge is a plus', 'Comfortable with monthly regulatory reporting cycles'] },
+    { id: 'j4', m: 'both', title: 'Data Scientist', co: 'Ostrove', logo: 'OS', dark: true, loc: 'Remote', mode: 'Remote · paid in USD', age: '1d ago', salary: '$120k', est: { in: '≈ ₹1.0 Cr/yr — estimate', uk: '≈ £95k/yr — estimate' }, match: 68, chips: ['python', 'ml', 'sql', 'experimentation'], more: 12, src: 'jobs.lever.co', sponsors: false,
+      about: 'Remote-first marketplace company hiring a data scientist for the growth team. You will design experiments, build causal models, and ship measurable lift.',
+      reqs: ['3+ years in product data science', 'Strong experimentation and causal inference background', 'Production Python; comfort with modern ML tooling', 'Fully remote — overlap with US East mornings required'] },
+    { id: 'j5', m: 'in', title: 'Product Analyst', co: 'Trellim', logo: 'TR', dark: false, loc: 'Hyderabad, India', mode: 'Remote (India)', age: '6d ago', salary: '₹14–20 LPA', est: null, match: 59, chips: ['sql', 'mixpanel', 'a/b testing'], more: 4, src: 'boards.greenhouse.io', sponsors: false,
+      about: 'First dedicated analyst on a fast-growing SaaS product. Define metrics from scratch, instrument the funnel, and influence the roadmap directly.',
+      reqs: ['2+ years in product analytics', 'Fluent SQL and a product sense to match', 'Hands-on with Mixpanel/Amplitude', 'Startup pace — ambiguity is the job'] },
+    { id: 'j6', m: 'uk', title: 'BI Analyst', co: 'Northwind Analytics', logo: 'NA', dark: false, loc: 'London, UK', mode: 'On-site', age: '5h ago', salary: '£45,000–£55,000', est: null, match: 82, chips: ['power bi', 'sql', 'dax'], more: 8, src: 'nw.wd5.myworkdayjobs.com', sponsors: true,
+      about: 'Consultancy serving retail clients across the UK. You will own client-facing dashboards end to end and present insights in fortnightly reviews.',
+      reqs: ['2+ years with Power BI in a client-facing role', 'Strong SQL and data modeling', 'Right to work in the UK, or visa sponsorship — we sponsor', 'Excellent presentation skills'] },
+    { id: 'j7', m: 'uk', title: 'Senior Data Analyst', co: 'Fenwick & Gray', logo: 'FG', dark: true, loc: 'Manchester, UK', mode: 'Hybrid', age: '2d ago', salary: '£52,000', est: null, match: 77, chips: ['sql', 'python', 'looker'], more: 9, src: 'boards.greenhouse.io', sponsors: false,
+      about: 'E-commerce group hiring a senior analyst for the trading team. Daily trading insight, weekly forecasting, and a direct line to the commercial director.',
+      reqs: ['4+ years in retail or e-commerce analytics', 'Expert SQL; Python for forecasting', 'Looker or similar modern BI stack', 'This role does not offer visa sponsorship'] },
+    { id: 'j8', m: 'uk', title: 'Analytics Consultant', co: 'Bracken Insights', logo: 'BI', dark: false, loc: 'Edinburgh, UK', mode: 'Hybrid', age: '4d ago', salary: null, est: null, match: 71, chips: ['sql', 'tableau', 'snowflake'], more: 6, src: 'bracken.icims.com', sponsors: false,
+      about: 'Boutique analytics consultancy working with public-sector and energy clients across Scotland. Varied projects, small teams, high trust.',
+      reqs: ['3+ years in analytics or consulting', 'Tableau and Snowflake experience', 'Comfortable owning client relationships', 'Occasional travel within the UK'] },
+    { id: 'j9', m: 'uk', title: 'Data Engineer', co: 'Veldt Energy', logo: 'VE', dark: true, loc: 'Leeds, UK', mode: 'Hybrid', age: '1d ago', salary: '£60,000–£70,000', est: null, match: 64, chips: ['python', 'spark', 'aws'], more: 10, src: 'veldt.wd5.myworkdayjobs.com', sponsors: true,
+      about: 'Renewables company scaling its grid-data platform. You will build the pipelines that move turbine telemetry into the analytics warehouse.',
+      reqs: ['3+ years building data pipelines in production', 'Python, Spark, and AWS (Glue/EMR)', 'Visa sponsorship available for the right candidate', 'Energy domain interest a plus'] }
+  ];
+
+  TRACK = [
+    { id: 't1', co: 'Meridian Labs', logo: 'ML', dark: true, role: 'Senior Data Analyst', status: 'Applied', date: '12 Jun' },
+    { id: 't2', co: 'Ostrove', logo: 'OS', dark: true, role: 'Data Scientist', status: 'Interviewing', date: '10 Jun' },
+    { id: 't3', co: 'Kavarna', logo: 'KV', dark: false, role: 'Analytics Engineer', status: 'Assessment', date: '9 Jun' },
+    { id: 't4', co: 'Northbeam Tech', logo: 'NT', dark: true, role: 'Data Analyst', status: 'Offer', date: '28 May' },
+    { id: 't5', co: 'Suryadeep Finance', logo: 'SF', dark: false, role: 'BI Analyst', status: 'Rejected', date: '2 Jun' },
+    { id: 't6', co: 'Trellim', logo: 'TR', dark: false, role: 'Product Analyst', status: 'Ghosted', date: '21 May' },
+    { id: 't7', co: 'Helio Systems', logo: 'HS', dark: false, role: 'Junior Data Scientist', status: 'Applied', date: '11 Jun' }
+  ];
+
+  STATUS = {
+    Applied: { bg: '#DBEAFE', fg: '#1D4ED8' },
+    Interviewing: { bg: '#D1FAE5', fg: '#047857' },
+    Assessment: { bg: '#FEF3C7', fg: '#B45309' },
+    Offer: { bg: '#1A3C2E', fg: '#FFFFFF' },
+    Ghosted: { bg: '#F3F4F6', fg: '#6B7280' },
+    Rejected: { bg: '#FEE2E2', fg: '#B91C1C' }
+  };
+
+  MSGS = [
+    { id: 'm1', tag: 'Interview', from: 'Priya Nair · Meridian Labs', addr: 'priya.nair@meridianlabs.com', subj: 'Interview availability — Senior Data Analyst', date: 'Today, 9:41', body: ['Hi Alistair,', 'Thanks for applying to the Senior Data Analyst role. The team enjoyed your profile and we would love to set up a 45-minute conversation with our analytics lead this week.', 'Could you share two or three slots that work for you between Tuesday and Friday? We are flexible on timing given notice periods.', 'Best,', 'Priya Nair · Talent, Meridian Labs'] },
+    { id: 'm2', tag: 'Verification', from: 'Workday', addr: 'no-reply@workday.com', subj: 'Your verification code', date: 'Today, 8:15', body: ['Your one-time verification code is:', '482913', 'This code expires in 10 minutes. obisa auto-filled this code on your Suryadeep Finance application — no action needed.'] },
+    { id: 'm3', tag: 'Assessment', from: 'Kavarna Talent', addr: 'talent@kavarna.in', subj: 'Complete your online assessment', date: 'Yesterday', body: ['Hello Alistair,', 'As the next step for the Analytics Engineer position, please complete a 60-minute SQL and data-modeling assessment within the next 5 days.', 'The assessment link is personal to you. Good luck!'] },
+    { id: 'm4', tag: 'Offer', from: 'Northbeam Tech HR', addr: 'hr@northbeam.tech', subj: 'Offer letter — Data Analyst', date: '28 May', body: ['Dear Alistair,', 'We are delighted to extend an offer for the Data Analyst position at Northbeam Tech. Your offer letter and compensation details are attached.', 'Please review and respond within 7 working days. We are excited to have you on board.'] },
+    { id: 'm5', tag: 'Reminder', from: 'obisa', addr: 'reminders@obisa.app', subj: '2 applications need your approval', date: '27 May', body: ['Two tailored resumes are waiting for your review before we can submit:', 'Bracken Insights — Analytics Consultant', 'Veldt Energy — Data Engineer', 'Approve them from your dashboard, or switch on auto-approve in Settings to skip this step.'] },
+    { id: 'm6', tag: 'Rejection', from: 'Suryadeep Finance', addr: 'careers@suryadeep.in', subj: 'Update on your application', date: '2 Jun', body: ['Dear candidate,', 'Thank you for your interest in the BI Analyst role. After careful review, we have decided to move forward with other candidates at this time.', 'We encourage you to apply for future openings that match your profile.'] }
+  ];
+
+  TAGC = {
+    Verification: { bg: '#DBEAFE', fg: '#1D4ED8' },
+    Rejection: { bg: '#FEE2E2', fg: '#B91C1C' },
+    Interview: { bg: '#D1FAE5', fg: '#047857' },
+    Assessment: { bg: '#FEF3C7', fg: '#B45309' },
+    Reminder: { bg: '#F3F4F6', fg: '#6B7280' },
+    Offer: { bg: '#1A3C2E', fg: '#FFFFFF' }
+  };
+
+  componentDidMount() {
+    this._kd = (e) => {
+      if (e.key !== 'Enter') return;
+      const t = e.target && e.target.tagName;
+      if (t === 'TEXTAREA' || (e.target && e.target.name === 'roleInput')) return;
+      const s = this.state.screen;
+      if (s === 'onb1') this.continue1();
+      else if (s === 'onb2') this.continue2();
+      else if (s === 'onb3') this.finish3();
+    };
+    window.addEventListener('keydown', this._kd);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._kd);
+    clearTimeout(this._rt); clearTimeout(this._tt);
+  }
+
+  marketId() { return this.state.marketChoice || this.props.market || 'india'; }
+  isEmptyData() { return (this.props.dataState || 'populated') === 'empty'; }
+  notify(msg) { clearTimeout(this._tt); this.setState({ toast: msg }); this._tt = setTimeout(() => this.setState({ toast: null }), 3200); }
+
+  setField = (e) => this.setState({ f: { ...this.state.f, [e.target.name]: e.target.value } });
+  go = (sc) => this.setState({ screen: sc, err2: false, err3: false, detailJobId: null });
+
+  uploadResume = () => {
+    if (this.state.resumeStatus !== 'idle') return;
+    this.setState({ resumeStatus: 'parsing' });
+    this._rt = setTimeout(() => this.setState({ resumeStatus: 'done' }), 7000);
+  };
+  removeResume = () => { clearTimeout(this._rt); this.setState({ resumeStatus: 'idle' }); };
+  continue1 = () => {
+    if (this.state.resumeStatus === 'idle') { this.notify('Add your resume first — drop a PDF in the box.'); return; }
+    this.go('onb2');
+  };
+  continue2 = () => {
+    const f = this.state.f;
+    if (!f.city.trim() || !f.phone.trim()) { this.setState({ err2: true }); this.notify('A couple of required fields are missing.'); return; }
+    this.go('onb3');
+  };
+  finish3 = () => {
+    if (!this.passOk().all) { this.setState({ err3: true }); return; }
+    this.setState({ screen: 'dashboard', err3: false });
+    this.notify("You're set up — your matches are waiting.");
+  };
+  passOk() {
+    const p = this.state.f.password;
+    const r = { len: p.length >= 12, lower: /[a-z]/.test(p), upper: /[A-Z]/.test(p), num: /[0-9]/.test(p), special: /[^A-Za-z0-9]/.test(p) };
+    r.all = r.len && r.lower && r.upper && r.num && r.special;
+    return r;
+  }
+  genPass = () => {
+    const sets = ['abcdefghjkmnpqrstuvwxyz', 'ABCDEFGHJKMNPQRSTUVWXYZ', '23456789', '!@#$%&*'];
+    let p = '';
+    for (let i = 0; i < 16; i++) { const s = sets[i % 4]; p += s[Math.floor(Math.random() * s.length)]; }
+    p = p.split('').sort(() => Math.random() - 0.5).join('');
+    this.setState({ f: { ...this.state.f, password: p }, err3: false });
+  };
+  roleKey = (e) => {
+    if (e.key !== 'Enter') return;
+    e.stopPropagation();
+    const v = this.state.f.roleInput.trim();
+    if (!v) return;
+    if (!this.state.roles.includes(v)) this.setState({ roles: [...this.state.roles, v], f: { ...this.state.f, roleInput: '' } });
+    else this.setState({ f: { ...this.state.f, roleInput: '' } });
+  };
+
+  applyJob(j) {
+    this.setState({ appliedIds: [...this.state.appliedIds, j.id], detailJobId: null });
+    this.notify('Applied to ' + j.co + ' — added to your tracker.');
+  }
+  passJob(j) {
+    this.setState({ passedIds: [...this.state.passedIds, j.id], detailJobId: null });
+    this.notify('Passed on ' + j.title + ' at ' + j.co + '.');
+  }
+  applyAll(jobs) {
+    if (!jobs.length) return;
+    this.setState({ appliedIds: [...this.state.appliedIds, ...jobs.map(j => j.id)], detailJobId: null });
+    this.notify('Applying to ' + jobs.length + ' jobs — watch the tracker.');
+  }
+
+  pill(active) {
+    return active ? { bg: '#1A3C2E', fg: '#FFFFFF', bd: '#1A3C2E' } : { bg: '#FFFFFF', fg: '#1A3C2E', bd: '#D1FAE5' };
+  }
+  seg(key, current) {
+    const desc = {
+      resume: { Off: 'Send your resume exactly as uploaded.', Honest: 'Reorder and emphasize experience relevant to each job.', Aggressive: 'Rewrite content to match the job description closely.' },
+      cover: { Off: "Don't generate a cover letter.", Honest: 'Tailor tone and emphasis to each job, no fabrication.', Aggressive: 'Rewrite to closely match the job description.' }
+    }[key];
+    return ['Off', 'Honest', 'Aggressive'].map(o => {
+      const active = current === o.toLowerCase();
+      return {
+        label: o, desc: desc[o],
+        bg: active ? '#F0FAF4' : '#FFFFFF', bd: active ? 'var(--accent, #10B981)' : '#E5E7EB',
+        fg: active ? '#1A3C2E' : '#6B7280', sub: active ? '#4B5563' : '#9CA3AF',
+        select: () => this.setState(key === 'resume' ? { resumeOpt: o.toLowerCase() } : { coverOpt: o.toLowerCase() })
+      };
+    });
+  }
+  toggleVals(on) {
+    return { track: on ? 'var(--accent, #10B981)' : '#D1D5DB', justify: on ? 'flex-end' : 'flex-start' };
+  }
+
+  decorateJob(j, isIN) {
+    return {
+      ...j,
+      salaryText: j.salary || 'Salary not disclosed',
+      salaryColor: j.salary ? '#1A3C2E' : '#6B7280',
+      salaryWeight: j.salary ? 600 : 400,
+      estText: j.est ? (isIN ? j.est.in : j.est.uk) : '',
+      sponsorNote: j.sponsors ? '· Sponsors visa' : '',
+      matchLabel: j.match + '% match',
+      logoBg: j.dark ? '#1A3C2E' : '#F0FAF4', logoFg: j.dark ? '#FFFFFF' : '#1A3C2E', logoBd: j.dark ? '#1A3C2E' : '#D1FAE5',
+      moreLabel: '+' + j.more,
+      apply: () => this.applyJob(j), pass: () => this.passJob(j),
+      view: () => this.setState({ detailJobId: j.id })
+    };
+  }
+  decorateTrack(t) {
+    const c = this.STATUS[t.status];
+    return { ...t, sBg: c.bg, sFg: c.fg, logoBg: t.dark ? '#1A3C2E' : '#F0FAF4', logoFg: t.dark ? '#FFFFFF' : '#1A3C2E', logoBd: t.dark ? '#1A3C2E' : '#D1FAE5' };
+  }
+
+  renderVals() {
+    const s = this.state, f = s.f;
+    const accent = this.props.accent || '#10B981';
+    const mkt = this.marketId();
+    const isIN = mkt !== 'uk';
+    const empty = this.isEmptyData();
+    const screen = s.screen;
+    const isOnb = screen === 'onb1' || screen === 'onb2' || screen === 'onb3';
+    const appScreens = ['dashboard', 'browse', 'tracker', 'inbox', 'profile', 'settings'];
+
+    // ---- onboarding rail ----
+    const stepNum = screen === 'onb1' ? 1 : screen === 'onb2' ? 2 : 3;
+    const stepDefs = [
+      { n: 1, title: 'Resume', sub: 'Upload & parse', sc: 'onb1' },
+      { n: 2, title: 'About you', sub: 'Location, contact, eligibility', sc: 'onb2' },
+      { n: 3, title: 'Application setup', sub: 'Password, optimization, roles', sc: 'onb3' }
+    ];
+    const stepItems = stepDefs.map(d => {
+      const done = d.n < stepNum, active = d.n === stepNum;
+      return {
+        mark: done ? '✓' : String(d.n), title: d.title, sub: d.sub, line: d.n < 3,
+        cBg: active || done ? 'var(--accent, #10B981)' : 'transparent',
+        cBd: active || done ? 'var(--accent, #10B981)' : '#FFFFFF33',
+        cFg: active || done ? '#FFFFFF' : '#BBD8C6',
+        tFg: active ? '#FFFFFF' : '#BBD8C6',
+        go: () => { if (done) this.go(d.sc); }
+      };
+    });
+
+    // ---- market labels ----
+    const regionOptsIN = ['Maharashtra', 'Karnataka', 'Telangana', 'Tamil Nadu', 'Delhi (NCT)', 'Gujarat', 'West Bengal', 'Uttar Pradesh', 'Rajasthan', 'Kerala'];
+    const regionOptsUK = ['Greater London', 'Greater Manchester', 'West Midlands', 'West Yorkshire', 'Edinburgh & Lothians', 'Glasgow City', 'Merseyside', 'Bristol', 'Tyne & Wear', 'Cardiff'];
+
+    // ---- yes/no rows ----
+    const mkYN = (key, label, note) => ({
+      label, note: note || '',
+      opts: ['Yes', 'No'].map(v => {
+        const active = s.yn[key] === v;
+        const p = this.pill(active);
+        return { label: v, bg: p.bg, fg: p.fg, bd: p.bd, select: () => this.setState({ yn: { ...s.yn, [key]: v } }) };
+      })
+    });
+    const ynRows = isIN
+      ? [mkYN('relocate', 'Willing to relocate?'), mkYN('citizen', 'Are you an Indian citizen?', '· optional')]
+      : [mkYN('rtw', 'Do you have the right to work in the UK?'), mkYN('sponsor', 'Will you now or in future require visa sponsorship?')];
+
+    const noticeList = isIN ? ['Immediate', '15 days', '30 days', '60 days', '90 days'] : ['Immediate', '1 week', '2 weeks', '1 month', '3 months'];
+    const noticeOpts = noticeList.map(o => {
+      const p = this.pill(s.notice === o);
+      return { label: o, bg: p.bg, fg: p.fg, bd: p.bd, select: () => this.setState({ notice: o }) };
+    });
+
+    const prefDefs = [
+      ['inperson', 'Open to in-person work?'], ['relocate', 'Willing to relocate?'], ['immediate', 'Can start immediately?'],
+      ['transport', 'Reliable transportation?'], ['accommodations', 'Need workplace accommodations?']
+    ];
+    const prefRows = prefDefs.map(([k, label]) => {
+      const t = this.toggleVals(s.prefs[k]);
+      return { label, track: t.track, justify: t.justify, toggle: () => this.setState({ prefs: { ...s.prefs, [k]: !s.prefs[k] } }) };
+    });
+
+    const pns = 'Prefer not to say';
+    const diRows = [
+      { label: 'Gender', name: 'gender', value: f.gender, options: [pns, 'Female', 'Male', 'Non-binary', 'Self-describe'] },
+      isIN
+        ? { label: 'Category', name: 'category', value: f.category, options: [pns, 'General', 'OBC', 'SC', 'ST'] }
+        : { label: 'Ethnicity (UK census)', name: 'category', value: f.category, options: [pns, 'Asian or Asian British', 'Black, Black British, Caribbean or African', 'Mixed or multiple ethnic groups', 'White', 'Other ethnic group'] },
+      { label: isIN ? 'Disability status (PwD)' : 'Disability status', name: 'disability', value: f.disability, options: [pns, 'Yes', 'No'] }
+    ];
+    if (!isIN) diRows.push({ label: 'Sexual orientation · voluntary', name: 'orientation', value: f.orientation, options: [pns, 'Heterosexual', 'Gay or lesbian', 'Bisexual', 'Other'] });
+
+    // ---- step 3 ----
+    const pr = this.passOk();
+    const ruleDefs = [['len', '12+ chars'], ['lower', 'lowercase'], ['upper', 'uppercase'], ['num', 'number'], ['special', 'special char']];
+    const ruleItems = ruleDefs.map(([k, label]) => ({ label, mark: pr[k] ? '✓' : '○', fg: pr[k] ? '#047857' : '#9CA3AF' }));
+    const arT = this.toggleVals(s.autoResume), acT = this.toggleVals(s.autoCover), rmT = this.toggleVals(s.recruiterOn);
+
+    // ---- jobs ----
+    const marketJobs = this.JOBS.filter(j => (isIN ? (j.m === 'in' || j.m === 'both') : (j.m === 'uk' || j.m === 'both')));
+    const liveJobs = marketJobs.filter(j => !s.appliedIds.includes(j.id) && !s.passedIds.includes(j.id));
+    const q = f.search.trim().toLowerCase();
+    const searchedJobs = q ? liveJobs.filter(j => (j.title + ' ' + j.co).toLowerCase().includes(q)) : liveJobs;
+    const jobs = (empty ? [] : searchedJobs).map(j => this.decorateJob(j, isIN));
+
+    // ---- tracker ----
+    const appliedRows = s.appliedIds.map(id => {
+      const j = this.JOBS.find(x => x.id === id);
+      return { id: 'a' + id, co: j.co, logo: j.logo, dark: j.dark, role: j.title, status: 'Applied', date: 'Today' };
+    }).reverse();
+    const allTrack = empty ? [] : [...appliedRows, ...this.TRACK];
+    const tq = f.trackerSearch.trim().toLowerCase();
+    const tabbed = allTrack.filter(t => (s.trackerTab === 'All' || t.status === s.trackerTab) && (!tq || (t.co + ' ' + t.role).toLowerCase().includes(tq)));
+    const trackRows = tabbed.map(t => this.decorateTrack(t));
+    const trackerTabNames = ['All', 'Applied', 'Interviewing', 'Assessment', 'Offer', 'Ghosted', 'Rejected'];
+    const trackerTabs = trackerTabNames.map(t => {
+      const count = t === 'All' ? allTrack.length : allTrack.filter(x => x.status === t).length;
+      const active = s.trackerTab === t;
+      const p = this.pill(active);
+      return { label: t, count: String(count), bg: p.bg, fg: p.fg, bd: p.bd, cBg: active ? '#FFFFFF26' : '#F0FAF4', cFg: active ? '#FFFFFF' : '#6B7280', select: () => this.setState({ trackerTab: t }) };
+    });
+
+    // ---- dashboard counters ----
+    const cnt = (st) => allTrack.filter(x => x.status === st).length;
+    const needsYou = empty ? 0 : 2;
+    const counters = [
+      { label: 'All', val: String(allTrack.length), fg: '#1A3C2E' },
+      { label: 'Submitted', val: String(cnt('Applied')), fg: '#1A3C2E' },
+      { label: 'In flight', val: String(cnt('Interviewing') + cnt('Assessment')), fg: '#1A3C2E' },
+      { label: 'Needs you', val: String(needsYou), fg: needsYou ? '#B45309' : '#1A3C2E' },
+      { label: 'Failed', val: String(cnt('Rejected')), fg: cnt('Rejected') ? '#B91C1C' : '#1A3C2E' },
+      { label: 'Skipped', val: String(cnt('Ghosted')), fg: '#1A3C2E' }
+    ];
+    const miniRows = trackRows.slice(0, 4);
+
+    // ---- inbox ----
+    const inboxTabNames = ['All', 'Verification', 'Rejection', 'Interview', 'Assessment', 'Reminder', 'Offer'];
+    const allMsgs = empty ? [] : this.MSGS;
+    const inboxTabs = inboxTabNames.map(t => {
+      const count = t === 'All' ? allMsgs.length : allMsgs.filter(m => m.tag === t).length;
+      const active = s.inboxTab === t;
+      const p = this.pill(active);
+      return { label: t, count: String(count), bg: p.bg, fg: p.fg, bd: p.bd, select: () => this.setState({ inboxTab: t }) };
+    });
+    const filteredMsgs = allMsgs.filter(m => s.inboxTab === 'All' || m.tag === s.inboxTab);
+    const msgRows = filteredMsgs.map(m => {
+      const active = s.selectedMsgId === m.id;
+      const tc = this.TAGC[m.tag];
+      return { ...m, rowBg: active ? '#F0FAF4' : '#FFFFFF', rowBd: active ? 'var(--accent, #10B981)' : 'transparent', tagBg: tc.bg, tagFg: tc.fg, select: () => this.setState({ selectedMsgId: m.id }) };
+    });
+    const sel = filteredMsgs.find(m => m.id === s.selectedMsgId) || filteredMsgs[0] || null;
+    const selTag = sel ? this.TAGC[sel.tag] : { bg: '#F3F4F6', fg: '#6B7280' };
+
+    // ---- nav ----
+    const navDefs = [['dashboard', 'Dashboard'], ['browse', 'Browse jobs'], ['inbox', 'Inbox'], ['tracker', 'Tracker'], ['profile', 'Profile'], ['settings', 'Settings']];
+    const navItems = navDefs.map(([sc, label]) => {
+      const active = screen === sc;
+      return { label, bg: active ? 'var(--accent, #10B981)' : 'transparent', fg: active ? '#FFFFFF' : '#BBD8C6', dot: active ? '#FFFFFF44' : '#FFFFFF22', go: () => this.go(sc) };
+    });
+    const channels = [
+      { label: 'WhatsApp', go: () => this.setState({ whatsappOpen: true }) },
+      { label: 'Email', go: () => this.notify('Email channel — set up under Settings → Email Integrations.') },
+      { label: 'Chrome', go: () => this.notify('Chrome extension — install link coming with the beta.') },
+      { label: 'Claude (MCP)', go: () => this.notify('Claude (MCP) channel — connect from any MCP-enabled client.') }
+    ];
+
+    const appsUsed = Math.min(25, (empty ? 0 : 7) + s.appliedIds.length);
+    const filterNames = ['Date', 'Location', 'Workplace', 'Degree Level', 'Max Experience', 'Role', 'Job Type', 'Employment Type', isIN ? 'CTC Range' : 'Sponsors Visa', 'More'];
+    const filterChips = filterNames.map(n => ({ label: n }));
+
+    // ---- settings ----
+    const settingsTabNames = ['Apply Settings', 'Workday Password', 'Plans & Billing', 'Referrals', 'Email Integrations', 'Account Settings'];
+    const settingsTabs = settingsTabNames.map(t => {
+      const active = s.settingsTab === t;
+      return { label: t, bg: active ? '#FFFFFF' : 'transparent', fg: active ? '#1A3C2E' : '#6B7280', wt: active ? 600 : 500, select: () => this.setState({ settingsTab: t }) };
+    });
+
+    // ---- detail job ----
+    const dj = s.detailJobId ? this.JOBS.find(j => j.id === s.detailJobId) : null;
+    const d = dj ? this.decorateJob(dj, isIN) : null;
+
+    // ---- market chip ----
+    const toggleMarket = () => {
+      this.setState({ marketChoice: isIN ? 'uk' : 'india', detailJobId: null });
+      this.notify('Market switched to ' + (isIN ? 'Abroad (UK)' : 'India') + '.');
+    };
+
+    return {
+      accent,
+      // screens
+      isLanding: screen === 'landing', isOnboarding: isOnb,
+      isOnb1: screen === 'onb1', isOnb2: screen === 'onb2', isOnb3: screen === 'onb3',
+      isApp: appScreens.includes(screen),
+      isDashboard: screen === 'dashboard', isBrowse: screen === 'browse', isTracker: screen === 'tracker',
+      isInbox: screen === 'inbox', isProfile: screen === 'profile', isSettings: screen === 'settings',
+      // landing
+      pickIndia: () => this.setState({ marketChoice: 'india', screen: 'onb1' }),
+      pickUK: () => this.setState({ marketChoice: 'uk', screen: 'onb1' }),
+      skipToApp: () => this.setState({ screen: 'dashboard' }),
+      // market
+      isIndia: isIN, isUK: !isIN,
+      marketFlag: isIN ? '🇮🇳' : '🌍', marketName: isIN ? 'India' : 'Abroad (UK)',
+      marketChipLabel: isIN ? '🇮🇳 India' : '🌍 Abroad (UK)', toggleMarket,
+      countryName: isIN ? 'India' : 'United Kingdom',
+      cityLabel: isIN ? 'City' : 'City / Town',
+      postalLabel: isIN ? 'PIN code' : 'Postcode',
+      postalPlaceholder: isIN ? '6 digits' : 'e.g. SW1A 1AA',
+      districtLabel: isIN ? 'District' : 'County',
+      regionLabel: isIN ? 'State / UT' : 'County / Region',
+      phonePrefix: isIN ? '+91' : '+44',
+      phonePlaceholder: isIN ? '98765 43210' : '7911 123456',
+      regionOpts: isIN ? regionOptsIN : regionOptsUK,
+      // onboarding
+      stepItems,
+      resumeIdle: s.resumeStatus === 'idle', resumeParsing: s.resumeStatus === 'parsing', resumeDone: s.resumeStatus === 'done',
+      resumeUploaded: s.resumeStatus !== 'idle',
+      resumeStatusLabel: s.resumeStatus === 'parsing' ? 'Parsing — 30–60 seconds' : 'Parsed ✓',
+      uploadResume: this.uploadResume, removeResume: this.removeResume,
+      continue1: this.continue1, continue2: this.continue2, finish3: this.finish3,
+      back1: () => this.go('onb1'), back2: () => this.go('onb2'),
+      setField: this.setField,
+      fReferral: f.referral, fAddrLine: f.addrLine, fCity: f.city, fPostal: f.postal, fDistrict: f.district, fRegion: f.region,
+      fPhone: f.phone, fAltPhone: f.altPhone, fLinkedin: f.linkedin, fCurrentCtc: f.currentCtc,
+      fExpectedCtcMin: f.expectedCtcMin, fExpectedCtcMax: f.expectedCtcMax, fAdditional: f.additional,
+      fPassword: f.password, fRoleInput: f.roleInput, fRecruiterMsg: f.recruiterMsg,
+      fSearch: f.search, fTrackerSearch: f.trackerSearch, fQuickUrl: f.quickUrl, fQuickJd: f.quickJd,
+      cityError: s.err2 && !f.city.trim(), phoneError: s.err2 && !f.phone.trim(), err3: s.err3,
+      ynRows, noticeOpts, prefRows, diRows,
+      ruleItems, genPass: this.genPass,
+      resumeSeg: this.seg('resume', s.resumeOpt), coverSeg: this.seg('cover', s.coverOpt),
+      resumeAggressive: s.resumeOpt === 'aggressive',
+      arTrack: arT.track, arJustify: arT.justify, toggleAutoResume: () => this.setState({ autoResume: !s.autoResume }),
+      acTrack: acT.track, acJustify: acT.justify, toggleAutoCover: () => this.setState({ autoCover: !s.autoCover }),
+      rmTrack: rmT.track, rmJustify: rmT.justify, toggleRecruiter: () => this.setState({ recruiterOn: !s.recruiterOn }),
+      recruiterOn: s.recruiterOn,
+      roleChips: s.roles.map(r => ({ label: r, remove: () => this.setState({ roles: s.roles.filter(x => x !== r) }) })),
+      roleKey: this.roleKey,
+      // app shell
+      navItems, channels,
+      appsLeft: String(25 - appsUsed), appsLeftPct: ((25 - appsUsed) / 25 * 100) + '%',
+      // jobs
+      jobs, hasJobs: jobs.length > 0, jobCount: String(jobs.length),
+      applyAllLabel: 'Apply to all ' + jobs.length,
+      applyAll: () => this.applyAll(searchedJobs.filter(j => !s.appliedIds.includes(j.id) && !s.passedIds.includes(j.id))),
+      goBrowse: () => this.go('browse'), goTracker: () => this.go('tracker'), goDashboard: () => this.go('dashboard'),
+      // dashboard
+      counters, miniRows, hasMiniRows: miniRows.length > 0,
+      approveAll: () => this.notify('2 pending edits approved — submitting now.'),
+      filterChips,
+      // tracker
+      trackerTabs, trackRows, hasTrackRows: trackRows.length > 0,
+      importCsv: () => this.notify('Import CSV — drop a file exported from any tracker.'),
+      addApplication: () => this.notify('Add application — log something you applied to elsewhere.'),
+      // inbox
+      inboxTabs, msgRows, hasMsgs: msgRows.length > 0,
+      hasSel: !!sel,
+      selFrom: sel ? sel.from : '', selAddr: sel ? sel.addr : '', selSubj: sel ? sel.subj : '',
+      selDate: sel ? sel.date : '', selBody: sel ? sel.body : [], selTagLabel: sel ? sel.tag : '',
+      selTagBg: selTag.bg, selTagFg: selTag.fg,
+      // settings
+      settingsTabs,
+      isTabApply: s.settingsTab === 'Apply Settings', isTabPassword: s.settingsTab === 'Workday Password',
+      isTabBilling: s.settingsTab === 'Plans & Billing', isTabReferrals: s.settingsTab === 'Referrals',
+      isTabEmail: s.settingsTab === 'Email Integrations', isTabAccount: s.settingsTab === 'Account Settings',
+      // browse quick add
+      quickAddOpen: s.quickAddOpen,
+      toggleQuickAdd: () => this.setState({ quickAddOpen: !s.quickAddOpen }),
+      quickApply: () => { if (!f.quickUrl.trim()) { this.notify('Paste a job URL first.'); return; } this.setState({ f: { ...f, quickUrl: '', quickJd: '' } }); this.notify('Queued — we will apply via the posted link.'); },
+      // detail
+      hasDetail: !!d,
+      dTitle: d ? d.title : '', dCo: d ? d.co : '', dLoc: d ? d.loc : '', dMode: d ? d.mode : '',
+      dSalary: d ? d.salaryText : '', dSalaryColor: d ? d.salaryColor : '#1A3C2E', dEst: d ? d.estText : '',
+      dHasEst: !!(d && d.estText), dAge: d ? d.age : '', dSrc: d ? d.src : '', dMatch: d ? d.matchLabel : '',
+      dChips: d ? d.chips : [], dAbout: d ? d.about : '', dReqs: d ? d.reqs : [],
+      dLogo: d ? d.logo : '', dLogoBg: d ? d.logoBg : '#F0FAF4', dLogoFg: d ? d.logoFg : '#1A3C2E',
+      dSponsors: !!(d && d.sponsors),
+      dApply: d ? d.apply : null, dPass: d ? d.pass : null,
+      closeDetail: () => this.setState({ detailJobId: null }),
+      // whatsapp
+      whatsappOpen: s.whatsappOpen,
+      openWhatsApp: () => this.setState({ whatsappOpen: true }),
+      closeWhatsApp: () => this.setState({ whatsappOpen: false }),
+      waGo: () => { this.setState({ whatsappOpen: false }); this.notify('Opening WhatsApp — say hi to start.'); },
+      // toast
+      hasToast: !!s.toast, toastMsg: s.toast || '',
+      // misc
+      emptyData: empty
+    };
+  }
+}
+</script>
+</body>
+</html>
